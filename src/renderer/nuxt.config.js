@@ -13,7 +13,6 @@ module.exports = {
   loading: false,
   plugins: [
     { ssr: true, src: '@/plugins/icons.js' }
-
   ],
   buildModules: [
     '@nuxt/typescript-build',

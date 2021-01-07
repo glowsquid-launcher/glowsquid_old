@@ -17,6 +17,12 @@ const baseConfig = {
     mode: 'hash'
   },
   dev: isDev,
+  vue: {
+    config: {
+      productionTip: false,
+      devtools: isDev
+    }
+  },
   generate: {
     dir: path.join(DIST_DIR, 'renderer')
   },

@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { Menu, MenuItem, app } from 'electron'
 import electronDebug from 'electron-debug'
-import vueDevtools from 'vue-devtools'
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 import { ELECTRON_RELAUNCH_CODE } from '../../.electron-nuxt/config'
 import mainWinHandler from './mainWindow'
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true'
@@ -25,7 +25,9 @@ if (process.platform === 'win32') {
 }
 
 app.on('ready', () => {
-  vueDevtools.install()
+  installExtension(VUEJS_DEVTOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err))
   const menu = Menu.getApplicationMenu()
   const refreshButton = new MenuItem({
     label: 'Relaunch electron',
