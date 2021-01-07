@@ -17,21 +17,11 @@ module.exports = {
   ],
   buildModules: [
     '@nuxt/typescript-build',
-    '@nuxtjs/composition-api'
-  ],
-  modules: [
-    '@nuxtjs/vuetify'
-  ],
-  vuetify: {
-    theme: {
-      themes: {
-        light: {
-          primary: '#1867c0',
-          secondary: '#b0bec5',
-          accent: '#8c9eff',
-          error: '#b71c1c'
-        }
+    '@nuxtjs/composition-api',
+    ['@nuxtjs/vuetify', {
+      theme: {
+        dark: true
       }
-    }
-  }
+    }]
+  ]
 }
