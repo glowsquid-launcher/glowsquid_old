@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events'
-import { BrowserWindow, app } from 'electron'
+import { BrowserWindow, app, ipcMain } from 'electron'
+import * as RPC from 'discord-rpc'
 
 export default class BrowserWinHandler {
   /**
@@ -19,7 +20,29 @@ export default class BrowserWinHandler {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     app.on('ready', () => {
+      const client = new RPC.Client({
+        transport: 'ipc'
+      })
+      client.on('ready', () => {
+        client.setActivity({
+          details: 'Looking around 👀',
+          state: 'Not signed in yet',
+          startTimestamp: new Date(),
+          largeImageKey: 'glowsquid',
+          largeImageText: 'Coming not soon™'
+        })
+
+        console.log('rpc now active')
+      })
+      client.login({
+        clientId: '795736067675258891'
+      })
+
       this._create()
+
+      ipcMain.on('updatePresence', (_e, presence) =>
+        client.setActivity(presence)
+      )
     })
 
     // On macOS it's common to re-create a window in the app when the
@@ -40,10 +63,12 @@ export default class BrowserWinHandler {
         }
       }
     )
+
     this.browserWindow.on('closed', () => {
       // Dereference the window object
       this.browserWindow = null
     })
+
     this._eventEmitter.emit('created')
   }
 
