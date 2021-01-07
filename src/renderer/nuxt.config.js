@@ -6,6 +6,7 @@
 
 module.exports = {
   ssr: false,
+  css: ['@/assets/transitions.css'],
   head: {
     title: 'glowsquid-next',
     meta: [{ charset: 'utf-8' }]

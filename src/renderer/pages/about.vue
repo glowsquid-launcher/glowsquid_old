@@ -11,6 +11,12 @@ export default defineComponent({
     toast () {
       this.$toast('yes')
     }
+  },
+  transition (_to, from) {
+    if (from && from.path !== '/') {
+      return 'slide-right'
+    }
+    return 'slide-left'
   }
 })
 </script>

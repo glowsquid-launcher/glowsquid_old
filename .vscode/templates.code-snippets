@@ -1,0 +1,26 @@
+{
+  "create default vue page": {
+    "scope": "vue",
+    "prefix": "page",
+    "body": [
+      "<template>",
+      " <${1}>",
+      " ",
+      " </${1}>",
+      "</template>",
+      "",
+      "<script lang=\"ts\">",
+      "import { defineComponent } from '@nuxtjs/composition-api'",
+      "export default defineComponent({",
+      " transition (_to, from) {",
+      "   if (from && from.path !== '${2}') {",
+      "     return 'slide-right'",
+      "   }", 
+      "   return 'slide-left'",
+      " }",
+      "})",
+      "</script>"
+    ],
+    "description": "creates a default vue page"
+  }
+}
