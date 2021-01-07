@@ -49,6 +49,11 @@ export default defineComponent({
         title: 'Home',
         icon: 'mdi-home',
         path: '/'
+      },
+      {
+        title: 'About',
+        icon: 'mdi-info',
+        path: '/about'
       }] as {title: string, icon: string, path: string}[]
     }
   }

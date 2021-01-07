@@ -12,7 +12,8 @@ module.exports = {
   },
   loading: false,
   plugins: [
-    { ssr: true, src: '@/plugins/icons.js' }
+    { ssr: true, src: '@/plugins/icons.js' },
+    { ssr: false, src: '@/plugins/notifier.js' }
   ],
   buildModules: [
     '@nuxt/typescript-build',
