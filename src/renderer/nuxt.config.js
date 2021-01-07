@@ -5,7 +5,7 @@
  */
 
 module.exports = {
-  mode: 'spa', // or 'universal'
+  ssr: false,
   head: {
     title: 'glowsquid-next',
     meta: [{ charset: 'utf-8' }]
@@ -18,14 +18,17 @@ module.exports = {
   buildModules: [
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api',
-    ['@nuxtjs/vuetify', {
-      theme: {
-        dark: true,
-        themes: {
-          light: {},
-          dark: {}
+    '@nuxtjs/vuetify'
+  ],
+  vuetify: {
+    theme: {
+      themes: {
+        light: {
+        },
+        dark: {
         }
-      }
-    }]
-  ]
+      },
+      dark: true
+    }
+  }
 }
