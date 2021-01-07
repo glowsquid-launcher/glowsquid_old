@@ -52,8 +52,13 @@ export default defineComponent({
       },
       {
         title: 'About',
-        icon: 'mdi-info',
+        icon: 'mdi-information',
         path: '/about'
+      },
+      {
+        title: 'instances',
+        icon: 'mdi-package-variant-closed',
+        path: '/instances'
       }] as {title: string, icon: string, path: string}[]
     }
   }

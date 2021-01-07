@@ -30,6 +30,9 @@ module.exports = {
         }
       },
       dark: true
+    },
+    icons: {
+      iconfont: 'mdi'
     }
   }
 }
