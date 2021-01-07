@@ -4,35 +4,34 @@
  * @link {https://nuxtjs.org/guide/configuration/}
  */
 
-
 module.exports = {
   mode: 'spa', // or 'universal'
   head: {
     title: 'glowsquid-next',
-    meta: [{ charset: "utf-8" }]
+    meta: [{ charset: 'utf-8' }]
   },
   loading: false,
   plugins: [
-    {ssr: true, src: '@/plugins/icons.js'},
-    
-    
+    { ssr: true, src: '@/plugins/icons.js' }
+
   ],
   buildModules: [
     '@nuxt/typescript-build',
+    '@nuxtjs/composition-api'
   ],
   modules: [
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify'
   ],
-          vuetify: {
-            theme: {
-              themes: {
-                light: {
-                  primary: '#1867c0',
-                  secondary: '#b0bec5',
-                  accent: '#8c9eff',
-                  error: '#b71c1c',
-                },
-              },
-            }
-          }
-};
+  vuetify: {
+    theme: {
+      themes: {
+        light: {
+          primary: '#1867c0',
+          secondary: '#b0bec5',
+          accent: '#8c9eff',
+          error: '#b71c1c'
+        }
+      }
+    }
+  }
+}
