@@ -20,7 +20,11 @@ module.exports = {
     '@nuxtjs/composition-api',
     ['@nuxtjs/vuetify', {
       theme: {
-        dark: true
+        dark: true,
+        themes: {
+          light: {},
+          dark: {}
+        }
       }
     }]
   ]
