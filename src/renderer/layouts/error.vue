@@ -11,12 +11,16 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from '@nuxtjs/composition-api'
+export default defineComponent({
   layout: 'default',
   props: {
     // eslint-disable-next-line vue/require-default-prop
-    error: Object
+    error: {
+      type: Object,
+      required: true
+    }
   } // If you prefers you can set a custom layout for the error page
-}
+})
 </script>
