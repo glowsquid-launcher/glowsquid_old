@@ -11,7 +11,7 @@
 import appHeader from '@/components/header.vue'
 import { defineComponent } from '@nuxtjs/composition-api'
 export default defineComponent({
-  components: { appHeader },
+  components: { appHeader }
 })
 </script>
 

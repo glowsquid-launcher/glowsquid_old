@@ -3,6 +3,15 @@
     <v-toolbar color="primary">
       <v-app-bar-nav-icon @click="sidebarVisible = !sidebarVisible" />
       <v-toolbar-title> Glowsquid </v-toolbar-title>
+      <v-breadcrumbs :items="crumbs">
+        <template #item="{ item }">
+          <v-breadcrumbs-item>
+            <NuxtLink class="white--text" :to="`/${item.path}`">
+              {{ item.text }}
+            </NuxtLink>
+          </v-breadcrumbs-item>
+        </template>
+      </v-breadcrumbs>
     </v-toolbar>
     <v-navigation-drawer v-model="sidebarVisible" absolute temporary color="primary">
       <v-list>
@@ -60,6 +69,25 @@ export default defineComponent({
         icon: 'mdi-package-variant-closed',
         path: '/instances'
       }] as {title: string, icon: string, path: string}[]
+    }
+  },
+  computed: {
+    crumbs () {
+      const pathArray: string[] = this.$route.path.split('/')
+      pathArray.shift()
+      const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
+        breadcrumbArray.push({
+          path,
+          to: breadcrumbArray[idx - 1]
+            ? '/' + breadcrumbArray[idx - 1].path + '/' + path
+            : '/' + path,
+          text: this.$router.resolve({
+            path
+          }).route.meta.breadCrumb || path
+        })
+        return breadcrumbArray
+      }, [] as {path: string; to: string; text: string}[])
+      return breadcrumbs
     }
   }
 })

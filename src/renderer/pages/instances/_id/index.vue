@@ -12,6 +12,14 @@ export default defineComponent({
       return 'slide-right'
     }
     return 'slide-left'
+  },
+  head () {
+    return {
+      title: this.title,
+      meta: [{
+        breadCrumb: this.$route.params.id
+      }]
+    }
   }
 })
 </script>

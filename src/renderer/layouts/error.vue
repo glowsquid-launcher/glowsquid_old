@@ -21,6 +21,6 @@ export default defineComponent({
       type: Object,
       required: true
     }
-  } // If you prefers you can set a custom layout for the error page
+  }
 })
 </script>

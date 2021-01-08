@@ -1,17 +1,20 @@
 <template>
   <div>
-    test
+    <NuxtLink to="/instances/test">test</NuxtLink>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 export default defineComponent({
-  transition (_to, from) {
-    if (from && /instances\/[^/]+/.test(from.path)) {
-      return 'slide-right'
+  transition: 'slide-left',
+  head () {
+    return {
+      title: this.title,
+      meta: [{
+        breadCrumb: 'instances'
+      }]
     }
-    return 'slide-left'
   }
 })
 </script>

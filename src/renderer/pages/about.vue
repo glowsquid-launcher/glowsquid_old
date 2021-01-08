@@ -1,17 +1,20 @@
 <template>
   <div>
-    <v-btn @click="toast" color="primary"> toast </v-btn>
+    <v-btn color="primary" @click="toast"> toast </v-btn>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 export default defineComponent({
-  transition (_to, from) {
-    if (from && from.path !== '/about') {
-      return 'slide-right'
+  transition: 'slide-left',
+  head () {
+    return {
+      title: this.title,
+      meta: [{
+        breadCrumb: 'about'
+      }]
     }
-    return 'slide-left'
   },
   methods: {
     toast () {

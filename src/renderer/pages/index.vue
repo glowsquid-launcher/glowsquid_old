@@ -6,11 +6,14 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  transition (_to, from) {
-    if (from && from.path !== '/') {
-      return 'slide-right'
+  transition: 'slide-left',
+  head () {
+    return {
+      title: this.title,
+      meta: [{
+        breadCrumb: 'home'
+      }]
     }
-    return 'slide-left'
   }
 })
 </script>
