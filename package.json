@@ -25,6 +25,8 @@
     "@types/node": "12.12.6"
   },
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@mdi/font": "^5.8.55",
     "@nuxt/typescript-build": "0.5.8",
     "@nuxtjs/eslint-config-typescript": "1.0.2",
@@ -47,6 +49,7 @@
     "eslint": "5.16.0",
     "eslint-friendly-formatter": "4.0.1",
     "eslint-loader": "4.0.2",
+    "husky": "^4.3.7",
     "native-ext-loader": "2.3.0",
     "nuxt": "2.14.5",
     "require-extension-hooks": "0.3.3",
@@ -67,5 +70,10 @@
     "@vue/composition-api": "^1.0.0-beta.24",
     "discord-rpc": "^3.1.4",
     "vuetify-toast-snackbar": "^0.6.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-2">
     <v-toolbar>
       <v-app-bar-nav-icon @click="sidebarVisible = !sidebarVisible" />
       <v-toolbar-title> Glowsquid </v-toolbar-title>
