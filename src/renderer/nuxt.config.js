@@ -11,22 +11,35 @@ module.exports = {
     title: 'glowsquid-next',
     meta: [{ charset: 'utf-8' }]
   },
-  loading: false,
   plugins: [
     { ssr: true, src: '@/plugins/icons.js' },
     { ssr: false, src: '@/plugins/notifier.js' }
   ],
   buildModules: [
+    '@nuxtjs/vuetify',
     '@nuxt/typescript-build',
-    '@nuxtjs/composition-api',
-    '@nuxtjs/vuetify'
+    '@nuxtjs/composition-api'
   ],
   vuetify: {
     theme: {
       themes: {
-        light: {
-        },
         dark: {
+          primary: '#002B36',
+          accent: '#D33682',
+          secondary: '#586E75',
+          success: '#859900',
+          info: '#2AA198',
+          warning: '#CB4B16',
+          error: '#DC322F'
+        },
+        light: {
+          primary: '#FDF6E3',
+          accent: '#D33682',
+          secondary: '#EEE8D5',
+          success: '#859900',
+          info: '#2AA198',
+          warning: '#CB4B16',
+          error: '#DC322F'
         }
       },
       dark: true

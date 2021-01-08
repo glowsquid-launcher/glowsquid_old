@@ -1,15 +1,18 @@
 <template>
-  <v-app>
-    <app-header />
-    <nuxt class="ml-2" />
-  </v-app>
+  <section>
+    <v-app>
+      <app-header />
+      <nuxt class="ml-2" />
+    </v-app>
+  </section>
 </template>
 
-<script>
-import appHeader from '@/components/header'
-export default {
-  components: { appHeader }
-}
+<script lang="ts">
+import appHeader from '@/components/header.vue'
+import { defineComponent } from '@nuxtjs/composition-api'
+export default defineComponent({
+  components: { appHeader },
+})
 </script>
 
 <style>

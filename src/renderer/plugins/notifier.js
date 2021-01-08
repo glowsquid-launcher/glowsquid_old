@@ -3,8 +3,9 @@ import VuetifyToast from 'vuetify-toast-snackbar'
 
 export default ({ $vuetify }, inject) => {
   Vue.use(VuetifyToast, {
-    timeout: 5000,
+    timeout: 3000,
     queuable: true,
+    color: 'secondary',
     $vuetify,
     y: 'top'
   })

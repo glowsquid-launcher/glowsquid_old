@@ -13,10 +13,10 @@
 
 <script>
 export default {
+  layout: 'default',
   props: {
     // eslint-disable-next-line vue/require-default-prop
     error: Object
-  },
-  layout: 'default' // If you prefers you can set a custom layout for the error page
+  } // If you prefers you can set a custom layout for the error page
 }
 </script>

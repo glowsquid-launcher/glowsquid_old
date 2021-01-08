@@ -1,10 +1,10 @@
 <template>
   <div class="mb-2">
-    <v-toolbar>
+    <v-toolbar color="primary">
       <v-app-bar-nav-icon @click="sidebarVisible = !sidebarVisible" />
       <v-toolbar-title> Glowsquid </v-toolbar-title>
     </v-toolbar>
-    <v-navigation-drawer v-model="sidebarVisible" absolute temporary>
+    <v-navigation-drawer v-model="sidebarVisible" absolute temporary color="primary">
       <v-list>
         <v-list-item
           v-for="item in items"
@@ -24,7 +24,7 @@
         </v-list-item>
       </v-list>
 
-      <template v-slot:append>
+      <template #append>
         <div class="pa-2">
           <v-btn block @click="$router.push({
             path: '/settings'
