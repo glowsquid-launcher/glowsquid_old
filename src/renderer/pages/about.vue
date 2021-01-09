@@ -8,14 +8,6 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 export default defineComponent({
   transition: 'slide-left',
-  head () {
-    return {
-      title: this.title,
-      meta: [{
-        breadCrumb: 'about'
-      }]
-    }
-  },
   methods: {
     toast () {
       this.$toast('yes')

@@ -7,7 +7,7 @@
         <template #item="{ item }">
           <v-breadcrumbs-item>
             <NuxtLink class="white--text" :to="`/${item.path}`">
-              {{ item.text }}
+              {{ item.text[0].toUpperCase() + item.text.slice(1) }}
             </NuxtLink>
           </v-breadcrumbs-item>
         </template>
@@ -73,17 +73,20 @@ export default defineComponent({
   },
   computed: {
     crumbs () {
+      console.log(this.$router.resolve({
+        path: this.$route.path
+      }))
+
       const pathArray: string[] = this.$route.path.split('/')
       pathArray.shift()
       const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
+        console.log(path)
         breadcrumbArray.push({
           path,
           to: breadcrumbArray[idx - 1]
             ? '/' + breadcrumbArray[idx - 1].path + '/' + path
             : '/' + path,
-          text: this.$router.resolve({
-            path
-          }).route.meta.breadCrumb || path
+          text: path === '' ? 'Home' : path
         })
         return breadcrumbArray
       }, [] as {path: string; to: string; text: string}[])
