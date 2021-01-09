@@ -73,14 +73,9 @@ export default defineComponent({
   },
   computed: {
     crumbs () {
-      console.log(this.$router.resolve({
-        path: this.$route.path
-      }))
-
       const pathArray: string[] = this.$route.path.split('/')
       pathArray.shift()
       const breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
-        console.log(path)
         breadcrumbArray.push({
           path,
           to: breadcrumbArray[idx - 1]
