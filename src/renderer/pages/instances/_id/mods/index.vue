@@ -5,7 +5,7 @@
   >
     <v-card v-for="mod in modList.hits" :key="mod.mod_id" tile height="100%" class="card-outter">
       <v-card-title class="flex flex-row mb-2">
-        <v-img :max-height="32" :max-width="32" :src="mod.icon_url" class="mr-3" />
+        <v-img :max-height="32" :max-width="32" :src="mod.icon_url" class="mr-3 rounded-sm" />
         <p class="h-full ma-0 align-middle">{{ mod.title }}</p>
       </v-card-title>
       <v-card-subtitle>by {{ mod.author }}</v-card-subtitle>
