@@ -23,6 +23,7 @@ export default class BrowserWinHandler {
       const client = new RPC.Client({
         transport: 'ipc'
       })
+
       client.on('ready', () => {
         client.setActivity({
           details: 'Looking around 👀',
@@ -34,6 +35,7 @@ export default class BrowserWinHandler {
 
         console.log('rpc now active')
       })
+
       client.login({
         clientId: '795736067675258891'
       })

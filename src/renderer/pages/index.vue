@@ -10,8 +10,18 @@
 
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
+import { ipcRenderer } from 'electron'
 
 export default defineComponent({
-  transition: 'slide-left'
+  transition: 'slide-left',
+  setup () {
+    ipcRenderer.send('updatePresence', {
+      details: 'Looking around 👀',
+      state: 'Not signed in yet',
+      startTimestamp: new Date(),
+      largeImageKey: 'glowsquid',
+      largeImageText: 'Coming not soon™'
+    })
+  }
 })
 </script>

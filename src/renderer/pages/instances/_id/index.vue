@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ $route.params.id }}
+    <NuxtLink :to="`/instances/${$route.params.id}/mods`">to mods</NuxtLink>
   </div>
 </template>
 
