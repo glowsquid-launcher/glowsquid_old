@@ -19,6 +19,7 @@ module.exports = {
     '@nuxtjs/vuetify',
     '@nuxt/typescript-build',
     '@nuxtjs/composition-api',
+    'nuxt-typed-vuex',
     '@nuxtjs/tailwindcss'
   ],
   vuetify: {

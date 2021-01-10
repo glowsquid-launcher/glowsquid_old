@@ -13,53 +13,20 @@
         </template>
       </v-breadcrumbs>
     </v-toolbar>
-    <v-navigation-drawer v-model="sidebarVisible" absolute temporary color="primary" style="height: 100vh;">
-      <v-list>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          link
-          @click="$router.push({
-            path: item.path
-          })"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-      <template #append>
-        <div class="grid grid-cols-3 gap-2 ma-2">
-          <v-btn class="col-span-2" block @click="$router.push({
-            path: '/settings'
-          })"
-          >
-            Settings
-          </v-btn>
-          <v-btn block @click="$vuetify.theme.dark = !$vuetify.theme.dark">
-            <v-icon>{{ $vuetify.theme.dark ? 'mdi-weather-night' : 'mdi-white-balance-sunny' }}</v-icon>
-          </v-btn>
-        </div>
-      </template>
-    </v-navigation-drawer>
-  </div>
-</template>
-    </v-navigation-drawer>
+    <NavDrawer :items="items" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
+import NavDrawer from '@/components/navDrawer.vue'
+import Vue from 'vue'
 
-export default defineComponent({
+export default Vue.extend({
+  components: {
+    NavDrawer
+  },
   data () {
     return {
-      sidebarVisible: false,
       items: [{
         title: 'Home',
         icon: 'mdi-home',
@@ -92,6 +59,10 @@ export default defineComponent({
         return breadcrumbArray
       }, [] as {path: string; to: string; text: string}[])
       return breadcrumbs
+    },
+    sidebarVisible: {
+      get () { return this.$accessor.ui.sidebarVisible },
+      set () { this.$accessor.ui.TOGGLE_SIDEBAR() }
     }
   }
 })

@@ -26,6 +26,7 @@
 <script lang="ts">
 import { defineComponent } from '@nuxtjs/composition-api'
 import ModList from '../../../../../types/ModList'
+
 export default defineComponent({
   transition: 'slide-left',
   data () {
@@ -39,6 +40,7 @@ export default defineComponent({
     )
   }
 })
+
 </script>
 
 <style lang="stylus">
