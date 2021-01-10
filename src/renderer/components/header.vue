@@ -13,7 +13,7 @@
         </template>
       </v-breadcrumbs>
     </v-toolbar>
-    <v-navigation-drawer v-model="sidebarVisible" absolute temporary color="primary">
+    <v-navigation-drawer v-model="sidebarVisible" absolute temporary color="primary" style="height: 100vh;">
       <v-list>
         <v-list-item
           v-for="item in items"

@@ -1,6 +1,14 @@
 <template>
-  <div v-if="modList.hits">
-    {{ modList.hits.map(mod => mod.title).join(', ') }}
+  <div v-if="modList.hits" class="grid grid-cols-3 gap-2">
+    <v-card v-for="mod in modList.hits" :key="mod.mod_id" tile>
+      <v-card-title> {{ mod.title }}</v-card-title>
+      <v-card-subtitle> {{ mod.author }}</v-card-subtitle>
+      <v-card-text> {{ mod.description }}</v-card-text>
+      <v-card-actions>
+        <v-btn>about</v-btn>
+        <v-btn>install</v-btn>
+      </v-card-actions>
+    </v-card>
   </div>
 </template>
 

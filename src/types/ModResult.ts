@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 export default interface ModResult {
   mod_id: string;
+  description: string;
   project_type: string;
   author: string;
   title: string;
