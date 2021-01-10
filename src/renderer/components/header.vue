@@ -6,7 +6,7 @@
       <v-breadcrumbs :items="crumbs">
         <template #item="{ item }">
           <v-breadcrumbs-item>
-            <NuxtLink class="white--text" :to="`/${item.path}`">
+            <NuxtLink :class="$vuetify.theme.dark ? 'white--text' : 'black--text'" :to="`/${item.path}`">
               {{ item.text[0].toUpperCase() + item.text.slice(1) }}
             </NuxtLink>
           </v-breadcrumbs-item>

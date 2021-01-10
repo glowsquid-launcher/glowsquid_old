@@ -6,7 +6,7 @@
 
 module.exports = {
   ssr: false,
-  css: ['@/assets/transitions.css'],
+  css: ['@/assets/transitions.css', '@/assets/extra.css'],
   head: {
     title: 'glowsquid-next',
     meta: [{ charset: 'utf-8' }]
@@ -35,15 +35,18 @@ module.exports = {
         },
         light: {
           primary: '#FDF6E3',
+          'primary--text': '#212121',
           accent: '#D33682',
           secondary: '#EEE8D5',
+          'secondary--text': '#212121',
           success: '#859900',
           info: '#2AA198',
           warning: '#CB4B16',
           error: '#DC322F'
         }
       },
-      dark: true
+      dark: true,
+      options: { customProperties: true }
     },
     icons: {
       iconfont: 'mdi'

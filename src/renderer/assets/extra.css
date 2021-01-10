@@ -1,0 +1,16 @@
+.vts__message div {
+  margin-right: auto;
+  color: var(--v-secondary--text-base) !important;
+}
+
+.v-btn__content {
+  color: var(--v-secondary--text-base) !important;
+}
+
+a {
+  color: var(--v-secondary--text-base) !important;
+}
+
+.v-application {
+  background: var(--v-secondary-base) !important;
+}

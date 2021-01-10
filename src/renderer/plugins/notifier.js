@@ -6,6 +6,7 @@ export default ({ $vuetify }, inject) => {
     timeout: 3000,
     queuable: true,
     color: 'secondary',
+    dismissable: true,
     $vuetify,
     y: 'top'
   })

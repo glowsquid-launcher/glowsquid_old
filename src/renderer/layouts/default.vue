@@ -1,6 +1,6 @@
 <template>
   <section>
-    <v-app>
+    <v-app color="primary">
       <app-header />
       <nuxt class="ml-2 mr-2" />
     </v-app>
