@@ -7,6 +7,8 @@ export default ({ $vuetify }, inject) => {
     queuable: true,
     color: 'secondary',
     dismissable: true,
+    showClose: true,
+    closeIcon: 'mdi-close',
     $vuetify,
     y: 'top'
   })

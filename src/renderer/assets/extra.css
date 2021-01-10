@@ -1,3 +1,11 @@
+.v-snack__content {
+ @apply grid grid-cols-4;
+}
+
+.vts__message {
+  @apply col-span-3 mr-auto;
+}
+
 .vts__message div {
   color: var(--v-secondary--text-base) !important;
 }
