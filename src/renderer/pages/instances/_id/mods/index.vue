@@ -3,7 +3,7 @@
     v-if="modList.hits"
     class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2"
   >
-    <v-card v-for="mod in modList.hits" :key="mod.mod_id" tile height="100%" class="card-outter">
+    <v-card v-for="mod in modList.hits" :key="mod.mod_id" height="100%" class="card-outter">
       <v-card-title class="flex flex-row mb-2">
         <v-img :max-height="32" :max-width="32" :src="mod.icon_url" class="mr-3 rounded-sm" />
         <p class="h-full ma-0 align-middle">{{ mod.title }}</p>
