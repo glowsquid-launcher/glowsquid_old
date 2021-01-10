@@ -1,5 +1,4 @@
 .vts__message div {
-  margin-right: auto;
   color: var(--v-secondary--text-base) !important;
 }
 
@@ -11,6 +10,6 @@ a {
   color: var(--v-secondary--text-base) !important;
 }
 
-.v-application {
-  background: var(--v-secondary-base) !important;
+.theme--light.v-application {
+  background-color: var(--v-secondary-base) !important;
 }
