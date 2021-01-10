@@ -1,5 +1,11 @@
 <template>
-  <h1>hello</h1>
+  <v-hover>
+    <template #default="{ hover }">
+      <v-card :elevation="hover ? 12 : 6" class="pa-4 transition" color="primary">
+        <h1 class="text-center">Welcome to Glowsquid.</h1>
+      </v-card>
+    </template>
+  </v-hover>
 </template>
 
 <script lang="ts">

@@ -2,7 +2,7 @@
   <section>
     <v-app>
       <app-header />
-      <nuxt class="ml-2" />
+      <nuxt class="ml-2 mr-2" />
     </v-app>
   </section>
 </template>

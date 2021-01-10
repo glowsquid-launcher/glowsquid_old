@@ -34,15 +34,20 @@
       </v-list>
 
       <template #append>
-        <div class="pa-2">
-          <v-btn block @click="$router.push({
-            path: '/settings'
-          })"
-          >
-            Settings
-          </v-btn>
-        </div>
+        <div class="grid grid-cols-3 gap-2 ma-2" />
+        <v-btn class="col-span-2" block @click="$router.push({
+          path: '/settings'
+        })"
+        >
+          Settings
+        </v-btn>
+        <v-btn block @click="$vuetify.theme.dark = !$vuetify.theme.dark">
+          <v-icon>{{ $vuetify.theme.dark ? 'mdi-weather-night' : 'mdi-white-balance-sunny' }}</v-icon>
+        </v-btn>
       </template>
+    </v-navigation-drawer>
+  </div>
+</template>
     </v-navigation-drawer>
   </div>
 </template>
