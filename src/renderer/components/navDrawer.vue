@@ -21,10 +21,7 @@
 
     <template #append>
       <div class="grid grid-cols-3 gap-2 ma-2">
-        <v-btn class="col-span-2" block @click="$router.push({
-          path: '/settings'
-        })"
-        >
+        <v-btn class="col-span-2" block @click="toggleSettings">
           Settings
         </v-btn>
         <v-btn block @click="$vuetify.theme.dark = !$vuetify.theme.dark">
@@ -54,9 +51,11 @@ export default defineComponent({
       }
     })
     const toggleSidebar = () => root.$accessor.ui.TOGGLE_SIDEBAR()
+    const toggleSettings = () => root.$accessor.ui.TOGGLE_SETTINGS()
     return {
       sidebarVisible,
-      toggleSidebar
+      toggleSidebar,
+      toggleSettings
     }
   }
 })
