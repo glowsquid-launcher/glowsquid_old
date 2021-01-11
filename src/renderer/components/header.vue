@@ -1,6 +1,6 @@
 <template>
   <div class="mb-2">
-    <v-toolbar color="primary">
+    <v-toolbar color="primary" height="80">
       <v-app-bar-nav-icon @click="sidebarVisible = !sidebarVisible" />
       <v-toolbar-title> Glowsquid </v-toolbar-title>
       <v-breadcrumbs :items="crumbs">
@@ -17,7 +17,7 @@
         :items="accounts"
         label="Account"
         color="primary"
-        class="mt-6"
+        class="mt-8"
         @input="(e) => $accessor.users.SET_USER($accessor.users.users.indexOf(e))"
       >
         <template #item="{ item }">
@@ -27,7 +27,7 @@
             :src="`https://minotar.net/avatar/${item.uuid}`"
             class="mr-3 rounded-sm"
           />
-          <span class="secondary--text">{{ item.name }}</span>
+          <p :class="[$vuetify.theme.dark ? 'white--text' : 'black--text', 'mt-4']">{{ item.name }}</p>
           <v-btn
             class="ml-auto mr-0"
             @click="$accessor.users.REMOVE_USER($accessor.users.users.indexOf(item))"
@@ -42,7 +42,7 @@
             :src="`https://minotar.net/avatar/${item.uuid}`"
             class="mr-3 rounded-sm"
           />
-          <span class="white--text">{{ item.name }}</span>
+          <p :class="[$vuetify.theme.dark ? 'white--text' : 'black--text', 'mt-4']">{{ item.name }}</p>
         </template>
         <template #append-item>
           <v-divider class="mb-2" />
