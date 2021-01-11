@@ -2,6 +2,7 @@
   <section>
     <v-app color="primary">
       <app-header />
+      <auth-modal />
       <nuxt class="ml-2 mr-2" />
     </v-app>
   </section>
@@ -9,9 +10,10 @@
 
 <script lang="ts">
 import appHeader from '@/components/header.vue'
+import authModal from '@/components/authModal.vue'
 import { defineComponent } from '@nuxtjs/composition-api'
 export default defineComponent({
-  components: { appHeader }
+  components: { appHeader, authModal }
 })
 </script>
 

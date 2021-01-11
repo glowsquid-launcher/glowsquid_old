@@ -61,7 +61,8 @@ export default class BrowserWinHandler {
           ...this.options.webPreferences,
           webSecurity: false, // disabled until modrinth's api is public
           nodeIntegration: true, // allow loading modules via the require () function
-          devTools: !process.env.SPECTRON // disable on e2e test environment
+          devTools: !process.env.SPECTRON, // disable on e2e test environment
+          enableRemoteModule: true
         }
       }
     )

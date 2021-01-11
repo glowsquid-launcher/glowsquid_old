@@ -16,7 +16,12 @@
         class="card-actions grid-cols-2 gap-1 justify-center"
         style="display: grid !important; width: 98%;"
       >
-        <v-btn block>about</v-btn>
+        <v-btn block @click="$router.push({
+          path: `/instances/${$route.params.id}/mods/${mod.mod_id.replace('local-', '')}`
+        })"
+        >
+          about
+        </v-btn>
         <v-btn block>install</v-btn>
       </v-card-actions>
     </v-card>

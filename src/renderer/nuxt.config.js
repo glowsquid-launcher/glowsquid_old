@@ -13,7 +13,9 @@ module.exports = {
   },
   plugins: [
     { ssr: true, src: '@/plugins/icons.js' },
-    { ssr: false, src: '@/plugins/notifier.js' }
+    { ssr: false, src: '@/plugins/notifier.ts' },
+    { ssr: false, src: '@/plugins/store.ts' }
+
   ],
   buildModules: [
     '@nuxtjs/vuetify',
