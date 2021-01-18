@@ -40,9 +40,7 @@ export default defineComponent({
     }
   },
   async fetch () {
-    this.modList = await fetch('https://api.modrinth.com/api/v1/mod').then(res =>
-      res.json()
-    )
+    this.modList = (await this.$axios.get('https://api.modrinth.com/api/v1/mod')).data
   }
 })
 

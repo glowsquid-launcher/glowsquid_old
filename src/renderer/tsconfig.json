@@ -15,6 +15,7 @@
     "sourceMap": true,
     "strict": true,
     "noEmit": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "paths": {
       "~/*": [
@@ -28,7 +29,8 @@
       "@nuxt/types",
       "@types/node",
       "@nuxt/vue-app",
-      "@nuxtjs/vuetify"
+      "@nuxtjs/vuetify",
+      "@nuxtjs/axios"
     ]
   }
 }

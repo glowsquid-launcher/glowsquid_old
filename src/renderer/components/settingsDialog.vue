@@ -63,14 +63,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { uiStore } from '@/store'
 export default Vue.extend({
   computed: {
     dialog: {
       get () {
-        return this.$accessor.ui.settingsVisible
+        return uiStore.settingsVisible
       },
       set (val) {
-        if (val !== this.$accessor.ui.settingsVisible) this.$accessor.ui.TOGGLE_SETTINGS()
+        if (val !== uiStore.settingsVisible) uiStore.TOGGLE_SETTINGS()
       }
     }
   }

@@ -20,10 +20,10 @@ export default interface Mod {
   downloads: number;
   categories: string[];
   versions: string[];
-  discord_url: string | null;
-  donation_urls: string[] | null;
-  icon_url: string | null;
-  issues_url: string | null;
-  source_url: string | null;
-  wiki_url: string | null;
+  discord_url?: string;
+  donation_urls?: string[];
+  icon_url?: string;
+  issues_url?: string;
+  source_url?: string;
+  wiki_url?: string;
 }

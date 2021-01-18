@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, PropType } from '@nuxtjs/composition-api'
+import { uiStore } from '@/store'
 
 export default defineComponent({
   transition: 'slide-left',
@@ -43,15 +44,15 @@ export default defineComponent({
       required: true
     }
   },
-  setup (_props, { root }) {
+  setup () {
     const sidebarVisible = computed({
-      get: () => root.$accessor.ui.sidebarVisible,
+      get: () => uiStore.sidebarVisible,
       set: val => {
-        if (val !== root.$accessor.ui.sidebarVisible) { root.$accessor.ui.TOGGLE_SIDEBAR() }
+        if (val !== uiStore.sidebarVisible) { uiStore.TOGGLE_SIDEBAR() }
       }
     })
-    const toggleSidebar = () => root.$accessor.ui.TOGGLE_SIDEBAR()
-    const toggleSettings = () => root.$accessor.ui.TOGGLE_SETTINGS()
+    const toggleSidebar = () => uiStore.TOGGLE_SIDEBAR()
+    const toggleSettings = () => uiStore.TOGGLE_SETTINGS()
     return {
       sidebarVisible,
       toggleSidebar,

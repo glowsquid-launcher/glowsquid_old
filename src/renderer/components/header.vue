@@ -18,7 +18,8 @@
         label="Account"
         color="primary"
         class="mt-8"
-        @input="(e) => $accessor.users.SET_USER($accessor.users.users.indexOf(e))"
+        :value="account"
+        @input="(e) => usersStore.SET_USER(usersStore.users.indexOf(e))"
       >
         <template #item="{ item }">
           <v-img
@@ -30,7 +31,7 @@
           <p :class="[$vuetify.theme.dark ? 'white--text' : 'black--text', 'mt-4']">{{ item.name }}</p>
           <v-btn
             class="ml-auto mr-0"
-            @click="$accessor.users.REMOVE_USER($accessor.users.users.indexOf(item))"
+            @click="usersStore.REMOVE_USER(usersStore.users.indexOf(item))"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
@@ -48,7 +49,7 @@
           <v-divider class="mb-2" />
           <v-list-item>
             <v-list-item-avatar>
-              <v-btn @click="$accessor.ui.TOGGLE_AUTH_MODAL()">
+              <v-btn @click="uiStore.TOGGLE_AUTH_MODAL()">
                 <v-icon>mdi-plus</v-icon>
               </v-btn>
             </v-list-item-avatar>
@@ -71,6 +72,7 @@
 
 <script lang="ts">
 import NavDrawer from '@/components/navDrawer.vue'
+import { uiStore, usersStore } from '@/store'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -93,7 +95,9 @@ export default Vue.extend({
         title: 'instances',
         icon: 'mdi-package-variant-closed',
         path: '/instances'
-      }] as {title: string, icon: string, path: string}[]
+      }] as {title: string, icon: string, path: string}[],
+      uiStore,
+      usersStore
     }
   },
   computed: {
@@ -114,11 +118,15 @@ export default Vue.extend({
       return breadcrumbs
     },
     sidebarVisible: {
-      get () { return this.$accessor.ui.sidebarVisible },
-      set () { this.$accessor.ui.TOGGLE_SIDEBAR() }
+      get () { return uiStore.sidebarVisible },
+      set () { uiStore.TOGGLE_SIDEBAR() }
     },
     accounts () {
-      return this.$accessor.users.users
+      return usersStore.users
+    },
+    account: {
+      get () { return usersStore.selected },
+      set (val) { console.log(val); usersStore.SET_USER(usersStore.users.indexOf(val as any)) }
     }
   },
   methods: {

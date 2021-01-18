@@ -17,6 +17,9 @@ module.exports = {
     { ssr: false, src: '@/plugins/store.ts' }
 
   ],
+  modules: [
+    '@nuxtjs/axios'
+  ],
   buildModules: [
     '@nuxtjs/vuetify',
     '@nuxt/typescript-build',

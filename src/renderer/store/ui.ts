@@ -1,13 +1,20 @@
-import { mutationTree } from 'nuxt-typed-vuex'
-
-export const state = () => ({
-  sidebarVisible: false,
-  authModalVisible: false,
-  settingsVisible: false
+import { Module, Mutation, VuexModule } from 'vuex-module-decorators'
+@Module({
+  name: 'ui',
+  stateFactory: true,
+  namespaced: true
 })
+export default class UiModule extends VuexModule {
+  sidebarVisible = false
+  authModalVisible = false
+  settingsVisible = false
 
-export const mutations = mutationTree(state, {
-  TOGGLE_SIDEBAR: state => { state.sidebarVisible = !state.sidebarVisible },
-  TOGGLE_AUTH_MODAL: state => { state.authModalVisible = !state.authModalVisible },
-  TOGGLE_SETTINGS: state => { state.settingsVisible = !state.settingsVisible }
-})
+  @Mutation
+  TOGGLE_SIDEBAR () { this.sidebarVisible = !this.sidebarVisible }
+
+  @Mutation
+  TOGGLE_AUTH_MODAL () { this.authModalVisible = !this.authModalVisible }
+
+  @Mutation
+  TOGGLE_SETTINGS () { this.settingsVisible = !this.settingsVisible }
+}

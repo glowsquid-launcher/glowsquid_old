@@ -42,7 +42,7 @@
               <v-btn type="submit" text :disabled="!valid">Submit</v-btn>
               <v-btn
                 text
-                @click="$accessor.ui.TOGGLE_AUTH_MODAL()"
+                @click="uiStore.TOGGLE_AUTH_MODAL()"
               >
                 Close
               </v-btn>
@@ -56,6 +56,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { uiStore, usersStore } from '@/store'
 
 export default Vue.extend({
   data () {
@@ -71,16 +72,17 @@ export default Vue.extend({
       ],
       password: '',
       valid: false,
-      error: ''
+      error: '',
+      uiStore
     }
   },
   computed: {
     visible: {
       get () {
-        return this.$accessor.ui.authModalVisible
+        return uiStore.authModalVisible
       },
       set (value) {
-        if (value !== this.$accessor.ui.authModalVisible) this.$accessor.ui.TOGGLE_AUTH_MODAL()
+        if (value !== uiStore.authModalVisible) uiStore.TOGGLE_AUTH_MODAL()
       }
     }
   },
@@ -89,9 +91,9 @@ export default Vue.extend({
       console.log(...vals)
     },
     addUser () {
-      this.$accessor.users.ADD_USER({ username: this.email, password: this.password })
+      usersStore.ADD_USER({ username: this.email, password: this.password })
         .then(() => {
-          this.$accessor.ui.TOGGLE_AUTH_MODAL()
+          uiStore.TOGGLE_AUTH_MODAL()
           this.error = ''
         })
         .catch(err => {

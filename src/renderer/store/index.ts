@@ -1,9 +1,5 @@
-import { getAccessorType } from 'typed-vuex'
-import * as ui from './ui'
-import * as users from './users'
-export const accessorType = getAccessorType({
-  modules: {
-    ui,
-    users
-  }
-})
+import { Store } from 'vuex'
+import { initialiseStores } from '~/utils/store-accessor'
+const initializer = (store: Store<any>) => initialiseStores(store)
+export const plugins = [initializer]
+export * from '~/utils/store-accessor'

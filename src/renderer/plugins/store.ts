@@ -3,7 +3,7 @@
 import Store from 'electron-store'
 import { Plugin } from '@nuxt/types'
 
-export const store = new Store<Record<'users' | 'selectedUser', any>>()
+export const store = new Store<Record<'users' | 'selectedUser' | 'instances', any>>()
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -27,6 +27,8 @@ declare module 'vuex/types/index' {
 }
 
 const plugin: Plugin = (_, inject) => {
+  console.log(store.path)
+  store.set('active', true)
   inject('$electronStore', store)
 }
 

@@ -15,9 +15,7 @@ export default defineComponent({
     }
   },
   async fetch () {
-    this.mod = await fetch(`https://api.modrinth.com/api/v1/mod/${this.$route.params.modid}`).then(res =>
-      res.json()
-    )
+    this.mod = await this.$axios.get(`https://api.modrinth.com/api/v1/mod/${this.$route.params.modid}`)
   }
 })
 </script>

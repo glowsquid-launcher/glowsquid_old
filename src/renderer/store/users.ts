@@ -1,41 +1,46 @@
-import { actionTree, mutationTree } from 'nuxt-typed-vuex'
 import { IUser, Authenticator } from 'minecraft-launcher-core'
-import { store } from '~/plugins/store'
+import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
+import { store } from '@/plugins/store'
 
-export const state = () => ({
-  users: (store.get('users') || []) as IUser[],
-  selected: (store.get('selectedUser') || {}) as IUser
+@Module({
+  name: 'users',
+  stateFactory: true,
+  namespaced: true
 })
+export default class UserModule extends VuexModule {
+  users: IUser[] = store.get('users', []);
+  selected: IUser = store.get('selected', {} as IUser);
 
-export const mutations = mutationTree(state, {
-  PUSH_USER (state, user: IUser) {
-    state.users.push(user)
-    store.set('users', state.users)
-  },
-  SET_USER (state, idx: number) {
-    console.log(state.users[idx])
-
-    state.selected = state.users[idx]
-    store.set('selectedUser', state.selected)
-  },
-  REMOVE_USER (state, idx: number) {
-    state.users.splice(idx, 1)
-    store.set('users', state.users)
+  @Mutation
+  PUSH_USER (user: IUser) {
+    this.users.push(user)
+    store.set('users', this.users)
   }
-})
 
-export const actions = actionTree({ state, mutations }, {
-  async ADD_USER ({ commit, state }, { username, password }: { username:string, password:string}) {
+  @Mutation
+  SET_USER (idx: number) {
+    this.selected = this.users[idx]
+    store.set('selectedUser', this.selected)
+  }
+
+  @Mutation
+  REMOVE_USER (idx: number) {
+    this.users.splice(idx, 1)
+    store.set('users', this.users)
+  }
+
+  @Action
+  async ADD_USER ({ username, password }: { username:string, password:string}) {
     console.log(username, password)
     try {
       const user = await Authenticator.getAuth(username, password)
 
-      if (state.users.find(val => val.name === user.name)) {
+      if (this.users.find(val => val.name === user.name)) {
         throw new Error('User already logged in')
-      } else commit('PUSH_USER', user)
+      } else this.context.commit('PUSH_USER', user)
     } catch (e) {
       if (e.message === 'Validation error: OK') throw new Error('You do not have a minecraft account')
       throw e
     }
   }
-})
+}

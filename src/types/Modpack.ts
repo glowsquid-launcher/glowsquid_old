@@ -4,13 +4,13 @@ export default interface Modpack {
   formatVersion: 1
   versionId: string
   name: string
-  summary: string | null
-  description: string | null
-  releaseDate: string | null
+  summary?: string
+  description?: string
+  releaseDate?: string
   files: ModFile[]
   dependencies: {
     minecraft: string
-    'fabric-loader': string | null
-    forge: string | null
+    'fabric-loader'?: string
+    forge?: string
   }
 }
