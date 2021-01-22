@@ -33,7 +33,7 @@
     "@nuxtjs/composition-api": "^0.18.0",
     "@nuxtjs/eslint-config-typescript": "5.0.0",
     "@nuxtjs/tailwindcss": "^3.4.2",
-    "@nuxtjs/vuetify": "^1.11.2",
+    "@nuxtjs/vuetify": "^1.11.3",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "@types/shelljs": "^0.8.8",
     "@types/webdriverio": "5.0.0",
