@@ -73,7 +73,7 @@
     "vls": "0.6.4",
     "vue-meta": "2.4.0",
     "vuetify": "2.4.2",
-    "webpack": "4.44.2",
+    "webpack": "4.46.0",
     "webpack-node-externals": "2.5.2"
   },
   "dependencies": {
