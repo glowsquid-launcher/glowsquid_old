@@ -24,6 +24,14 @@ export default class BrowserWinHandler {
         transport: 'ipc'
       })
 
+      let prevActivity = {
+        details: 'Looking around 👀',
+        state: 'Not signed in yet',
+        startTimestamp: new Date(),
+        largeImageKey: 'glowsquid',
+        largeImageText: 'Coming not soon™'
+      }
+
       client.on('ready', () => {
         client.setActivity({
           details: 'Looking around 👀',
@@ -42,8 +50,17 @@ export default class BrowserWinHandler {
 
       this._create()
 
-      ipcMain.on('updatePresence', (_e, presence) =>
-        client.setActivity(presence)
+      ipcMain.on('updatePresence', (_e, presence) => {
+        client.setActivity({
+          ...prevActivity,
+          ...presence
+        })
+
+        prevActivity = {
+          ...prevActivity,
+          ...presence
+        }
+      }
       )
     })
 

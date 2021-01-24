@@ -10,13 +10,8 @@
       "</template>",
       "",
       "<script lang=\"ts\">",
-      "import { defineComponent } from '@nuxtjs/composition-api'",
-      "export default defineComponent({",
-      " transition: 'slide-left",
-      " meta: [{",
-      " breadCrumb: ${2}",
-      " }]",
-      "})",
+      "export default {",
+      "}",
       "</script>"
     ],
     "description": "creates a default vue page"

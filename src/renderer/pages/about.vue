@@ -1,15 +1,15 @@
 <template>
   <div>
     <h1 class="text-h4 text-center">this is mostly a test page, nothing to see here</h1>
-    <v-btn color="primary" @click="toast"> toast </v-btn>
+    <v-btn @click="toast">
+      toast
+    </v-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
 import { ipcRenderer } from 'electron'
-export default defineComponent({
-  transition: 'slide-left',
+export default {
   mounted () {
     ipcRenderer.send('updatePresence', {
       details: 'testing stuff',
@@ -24,5 +24,5 @@ export default defineComponent({
       this.$toast('yes')
     }
   }
-})
+}
 </script>

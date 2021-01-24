@@ -12,8 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@nuxtjs/composition-api'
-export default defineComponent({
+export default {
   layout: 'default',
   props: {
     // eslint-disable-next-line vue/require-default-prop
@@ -22,5 +21,5 @@ export default defineComponent({
       required: true
     }
   }
-})
+}
 </script>

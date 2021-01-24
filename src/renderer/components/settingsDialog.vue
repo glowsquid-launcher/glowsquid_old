@@ -18,30 +18,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>Settings</v-toolbar-title>
-        <v-spacer />
-        <v-toolbar-items>
-          <v-btn
-            dark
-            text
-            @click="dialog = false"
-          >
-            Save
-          </v-btn>
-        </v-toolbar-items>
       </v-toolbar>
-      <v-list
-        three-line
-        subheader
-      >
-        <v-subheader>User Controls</v-subheader>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>test</v-list-item-title>
-            <v-list-item-subtitle>test</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider />
       <v-list
         three-line
         subheader
@@ -49,11 +26,11 @@
         <v-subheader>General</v-subheader>
         <v-list-item>
           <v-list-item-action>
-            <v-checkbox />
+            <v-checkbox v-model="useGrid" />
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>test</v-list-item-title>
-            <v-list-item-subtitle>test</v-list-item-subtitle>
+            <v-list-item-title>List View</v-list-item-title>
+            <v-list-item-subtitle>Shows mod instances as a List instead of a Grid.</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -72,6 +49,14 @@ export default Vue.extend({
       },
       set (val) {
         if (val !== uiStore.settingsVisible) uiStore.TOGGLE_SETTINGS()
+      }
+    },
+    useGrid: {
+      get () {
+        return uiStore.gridMode
+      },
+      set (val) {
+        if (val !== uiStore.gridMode) uiStore.TOGGLE_GRID_MODE()
       }
     }
   }

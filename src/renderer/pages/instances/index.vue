@@ -1,170 +1,226 @@
+<!-- eslint-disable max-len -->
 <template>
   <div>
-    <v-form v-model="valid">
-      <v-row>
-        <v-col>
-          <v-text-field
-            label="instance name"
-            :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
-            :rules="nameRules"
-            outlined
-            :value="name"
-            @input="(e) => name = e"
-          />
-        </v-col>
-        <v-col>
-          <v-select
-            :items="versionsToShow"
-            :loading="fetchState.pending"
-            label="Select version"
-            outlined
-            :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
-            :value="version"
-            @input="(e) => version = e"
-          >
-            <template #item="{ item }">
-              <p :class="[$vuetify.theme.dark ? 'white--text' : 'black--text']">{{ item.version }}</p>
-            </template>
-            <template #selection="{ item }">
-              <p class="mt-2 ml-1"> {{ item.version }}</p>
-            </template>
-            <template #prepend-item>
-              <v-checkbox v-model="showUnstable" class="ml-2" label="Show unstable versions" />
-            </template>
-          </v-select>
-        </v-col>
-        <v-col class="mt-2">
-          <v-btn :disabled="!valid" class="mr-2" @click="addInstance">Add Instance</v-btn>
-          <v-btn @click="refresh">refresh</v-btn>
-        </v-col>
-      </v-row>
-    </v-form>
-    <v-card v-for="instance in instances" :key="instance.name" class="mb-2 card-outter">
-      <v-card-title>{{ instance.name }}</v-card-title>
-      <v-card-subtitle>
-        <!-- eslint-disable-next-line max-len <!-->
-        Minecraft version: {{ instance.dependencies.minecraft }} | Fabric version: {{ instance.dependencies['fabric-loader'] }}
-      </v-card-subtitle>
-      <v-card-text>
-        {{ instance.summary }}
-      </v-card-text>
-
-      <!-- We need 99% width because else the launch button will hit the side for some reason -->
-      <v-card-actions
-        class="card-actions grid-cols-2 gap-1 justify-center"
-        style="display: grid !important; width: 99%;"
-      >
-        <v-btn block @click="$router.push({
-          path: `/instances/${instance.name}`
-        })"
+    <transition name="slide-y-transition" appear duration="100">
+      <v-toolbar v-if="!leaving" rounded="lg">
+        <v-text-field
+          v-model="filter"
+          background-color="#272727"
+          placeholder="Search"
+          class="mr-4 mt-7"
+          solo
         >
-          about
+          <template #prepend-inner>
+            <v-icon>
+              mdi-magnify
+            </v-icon>
+          </template>
+        </v-text-field>
+        <v-btn class="mr-2" min-width="36px" width="36px" @click="addInstance()">
+          <v-icon>mdi-plus-circle-outline</v-icon>
         </v-btn>
-        <v-btn block @click="launch(instance)">Launch</v-btn>
-      </v-card-actions>
-    </v-card>
+        <v-btn class="mr-2" min-width="36px" width="36px" @click="refresh">
+          <v-icon>mdi-refresh-circle</v-icon>
+        </v-btn>
+      </v-toolbar>
+    </transition>
+    <div v-if="downloadState">
+      Current Status: Downloading {{ downloadState.name }} | Type: {{ downloadState.type }} | {{ Math.round(downloadState.current / downloadState.total * 100) }}% Downloaded
+    </div>
+    <div
+      v-if="useGrid"
+      class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 justify-center mt-4 ml-3"
+      :style="`margin-right: ${selectedInstance ? '18rem' : '16px' };`"
+    >
+      <transition
+        v-for="(instance) in instances"
+        :key="instance.name"
+        name="slide-x-transition"
+        appear
+        duration="100"
+      >
+        <v-hover>
+          <template #default="{ hover }">
+            <v-card
+              v-if="!leaving"
+              rounded="md"
+              class="mb-2 card-outter"
+              :elevation="hover ? '10' : '0'"
+              color="#1a1a1a"
+              @click="setInstance(instance)"
+            >
+              <v-card-title class="mb-2">
+                <p class="text-center w-full">{{ instance.name }}</p>
+              </v-card-title>
+              <v-card-subtitle class="text-center">
+                <div>Minecraft version: {{ instance.dependencies.minecraft }}</div>
+                <div>Fabric loader version: {{ instance.dependencies['fabric-loader'] }}</div>
+              </v-card-subtitle>
+              <v-card-text class="text-center">
+                {{ instance.summary }}
+              </v-card-text>
+            </v-card>
+          </template>
+        </v-hover>
+      </transition>
+    </div>
+    <div v-else>
+      <section class="flex flex-col align-center justify-items-start pt-6">
+        <transition
+          v-for="(instance) in instances"
+          :key="instance.name"
+          name="slide-y-transition"
+          duration="100"
+          appear
+        >
+          <article v-if="!leaving" class="rounded-md pa-4 instance-card mb-4 w-3/4">
+            <div class="flex flex-row justify-items-center align-center">
+              <section class="card-info">
+                <h3 class="text-h6">{{ instance.name }}</h3>
+                <h4 class="text-subtitle-1">
+                  Minecraft Version: <span class="font-bold">{{ instance.dependencies.minecraft }}</span> | Fabric Version: <span class="font-bold">{{ instance.dependencies['fabric-loader'] }}</span>
+                </h4>
+              </section>
+              <button class="card-action rounded-md pa-1 ml-auto" @click="$router.push({ path: `/instances/${instance ? instance.name : ''}` });">
+                <v-icon>
+                  mdi-information-outline
+                </v-icon>
+              </button>
+              <button class="card-action rounded-md pa-1 ml-2" @click="removeInstance(instance)">
+                <v-icon>
+                  mdi-delete
+                </v-icon>
+              </button>
+              <button class="card-action rounded-md pa-1 ml-2" @click="launch(instance)">
+                <v-icon>
+                  mdi-play-circle-outline
+                </v-icon>
+              </button>
+            </div>
+          </article>
+        </transition>
+      </section>
+    </div>
+    <v-expand-x-transition>
+      <v-navigation-drawer
+        v-if="selectedInstance && !leaving"
+        v-model="isVisible"
+        color="primary"
+        right
+        permanent
+        fixed
+      >
+        <div class="flex flex-col w-full h-full">
+          <div class="mt-10">
+            <div class="flex w-full mt-4 mb-3">
+              <v-btn
+                class="ml-auto mr-2"
+                color="secondary"
+                fab
+                x-small
+                @click="isVisible = false"
+              >
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </div>
+            <v-divider />
+            <h1 class="w-full text-center text-lg mt-2 mb-2"> {{ selectedInstance.name }} </h1>
+            <h2 class="w-full text-center italic text-md mt-2 mb-2"> {{ selectedInstance.summary }} </h2>
+            <v-divider />
+          </div>
+          <div class="mt-auto mb-6 mr-2 ml-2">
+            <v-btn class="mt-4" block @click="launch(selectedInstance)">Launch</v-btn>
+            <v-btn
+              class="mt-4"
+              color="secondary"
+              block
+              @click="$router.push({ path: `/instances/${selectedInstance ? selectedInstance.name : ''}` })"
+            >
+              More info
+            </v-btn>
+            <v-btn
+              class="mt-4"
+              color="accent"
+              block
+              @click="removeInstance(selectedInstance)"
+            >
+              Settings(Deletes instances rn)
+            </v-btn>
+          </div>
+        </div>
+      </v-navigation-drawer>
+    </v-expand-x-transition>
   </div>
 </template>
 
 <script lang="ts">
-import * as path from 'path'
-import { computed, defineComponent, Ref, ref, useFetch } from '@nuxtjs/composition-api'
-import { ipcRenderer, remote } from 'electron'
-import { instanceStore, usersStore } from '@/store'
-import { Client } from 'minecraft-launcher-core'
-import FabricVersion from '../../../types/FabricVersion'
-import FabricLoaderVersion from '../../../types/FabricLoaderVersion'
-import Modpack from '~/../types/Modpack'
-export default defineComponent({
-  transition: 'slide-left',
-  setup (_, { root }) {
-    // version setup
-    const loaderVersions: Ref<FabricLoaderVersion[]> = ref([])
-    const versions: Ref<FabricVersion[]> = ref([])
-    const showUnstable = ref(false)
-    const versionsToShow = computed(() => {
-      if (showUnstable.value) {
-        return versions.value
-      } else {
-        return versions.value.filter(ver => ver.stable)
-      }
-    })
-    const { fetchState } = useFetch(async () => {
-      versions.value = (await root.$axios.get('https://meta.fabricmc.net/v2/versions/game')).data
-      loaderVersions.value = (await root.$axios.get('https://meta.fabricmc.net/v2/versions/loader')).data
-    })
+import launch from '@/utils/launch'
+import { ipcRenderer } from 'electron'
+import { instanceStore, uiStore } from '@/store'
+import Modpack from '@/../types/Modpack'
+import DownloadProgress from '@/../types/DownloadProgress'
 
-    const instances = computed(() => instanceStore.instances)
-    const refresh = () => instanceStore.REFRESH_INSTANCES()
-
-    // form setup and validation
-    const name = ref('')
-    const version: Ref<FabricVersion> = ref({} as FabricVersion)
-    const nameRules = [
-      v => !!v || 'Name is required',
-      v => !instances.value.find(val => val.name === v) || 'Instance already exists'
-    ]
-    const valid = ref(false)
-    function addInstance () {
-      instanceStore.ADD_INSTANCE({
-        name: name.value,
-        fabricVersion: loaderVersions.value[0].version,
-        minecraftVersion: version.value.version
-      })
+export default {
+  beforeRouteLeave (_, _2, next) {
+    this.leaving = true
+    setTimeout(() => {
+      next()
+    }, 100)
+  },
+  data () {
+    return {
+      selectedInstance: null as Modpack | null,
+      downloadState: null as DownloadProgress | null,
+      leaving: false,
+      filter: ''
     }
-
+  },
+  computed: {
+    isVisible: {
+      get () {
+        return this.selectedInstance !== null
+      },
+      set (val) {
+        if (val === false) this.selectedInstance = null
+      }
+    },
+    useGrid () {
+      console.log('Accessing property', uiStore.gridMode)
+      return uiStore.gridMode
+    },
+    instances () {
+      return this.filter
+        ? instanceStore.instances.filter(instance => instance.name.includes(this.filter))
+        : instanceStore.instances
+    }
+  },
+  mounted () {
     ipcRenderer.send('updatePresence', {
       details: 'Looking at their instances 👀',
-      state: 'Not signed in yet',
-      startTimestamp: new Date(),
-      largeImageKey: 'glowsquid',
-      largeImageText: 'Coming not soon™'
+      startTimestamp: new Date()
     })
-
-    function launch (instance: Modpack) {
-      console.log(instance)
-      const client = new Client()
-
-      client.on('debug', e => console.log(e))
-      client.on('data', e => console.log(e))
-      client.on('download', e => console.log(e))
-      client.on('download-status', e => console.log(e))
-
-      client.launch({
-        authorization: (async () => usersStore.selected)(),
-        root: path.join(remote.app.getPath('userData'), 'instances', instance.name, '.minecraft'),
-        version: {
-          number: instance.dependencies.minecraft,
-          type: 'release',
-          custom: instance.dependencies.minecraft + 'fabric'
-
-        },
-        memory: {
-          min: '4G',
-          max: '4G'
-        },
-        overrides: {
-          assetRoot: path.join(remote.app.getPath('userData'), 'assets')
-        }
-      })
-    }
-
-    return {
-      versions,
-      versionsToShow,
-      fetchState,
-      showUnstable,
-      nameRules,
-      valid,
-      refresh,
-      instances,
-      name,
-      version,
-      addInstance,
-      launch
+  },
+  methods: {
+    setInstance (instance: Modpack) {
+      this.selectedInstance = null
+      setTimeout(() => { this.selectedInstance = instance }, 300)
+    },
+    refresh () {
+      return instanceStore.REFRESH_INSTANCES()
+    },
+    async removeInstance (instance: Modpack | null) {
+      if (!instance) return
+      await instanceStore.DELETE_INSTANCE(instance)
+    },
+    async launch (instance: Modpack | null) {
+      const client = await launch(instance)
+      client?.on('download-status', e => { this.downloadState = e })
+    },
+    addInstance () {
+      uiStore.TOGGLE_ADD_INSTANCE_MODAL()
     }
   }
-})
+}
 </script>
 
 <style lang="stylus">
@@ -172,8 +228,28 @@ export default defineComponent({
   position: relative
   padding-bottom: 50px
 }
-.card-actions {
-  position: absolute
-  bottom: 0
+
+.v-text-field.v-text-field--solo:not(.v-text-field--solo-flat) > .v-input__control > .v-input__slot {
+    box-shadow: 0px 0px 0px 0px !important
 }
+
+.instance-card {
+
+  background-color #2a2a2a
+  min-width 440px
+
+  .card-action {
+    background-color #444444
+
+    &:hover {
+      background-color #555555
+    }
+
+    &:active {
+      background-color #666666
+    }
+  }
+
+}
+
 </style>

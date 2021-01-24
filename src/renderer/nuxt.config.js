@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 /**
  * By default, Nuxt.js is configured to cover most use cases.
  * This default configuration can be overwritten in this file
@@ -6,7 +8,7 @@
 
 module.exports = {
   ssr: false,
-  css: ['@/assets/transitions.css', '@/assets/extra.css'],
+  css: ['@/assets/extra.css'],
   head: {
     title: 'glowsquid-next',
     meta: [{ charset: 'utf-8' }]
@@ -22,9 +24,11 @@ module.exports = {
   ],
   buildModules: [
     '@nuxtjs/vuetify',
-    '@nuxt/typescript-build',
-    '@nuxtjs/composition-api',
-    'nuxt-typed-vuex',
+    ['@nuxt/typescript-build', {
+      // we disable this as the dev env already know about this stuff
+      ignoreNotFoundWarnings: true,
+      typeCheck: false
+    }],
     '@nuxtjs/tailwindcss'
   ],
   vuetify: {
@@ -33,7 +37,7 @@ module.exports = {
         dark: {
           primary: '#002B36',
           accent: '#D33682',
-          secondary: '#586E75',
+          secondary: '#053744',
           success: '#859900',
           info: '#2AA198',
           warning: '#CB4B16',
@@ -54,6 +58,38 @@ module.exports = {
     },
     icons: {
       iconfont: 'mdi'
+    }
+  },
+  tailwindcss: {
+    config: {
+      purge: [
+        './components/**/*.{vue,js}',
+        './layouts/**/*.vue',
+        './pages/**/*.vue',
+        './plugins/**/*.{js,ts}',
+        './nuxt.config.{js,ts}'
+      ],
+      theme: {
+        extend: {}
+      },
+      variants: {
+        extend: {
+          width: ['hover', 'focus'],
+          transitionProperty: ['important']
+        }
+      },
+      plugins: [
+        plugin(function ({ addVariant }) {
+          addVariant('important', ({ container }) => {
+            container.walkRules(rule => {
+              rule.selector = `.\\!${rule.selector.slice(1)}`
+              rule.walkDecls(decl => {
+                decl.important = true
+              })
+            })
+          })
+        })
+      ]
     }
   }
 }

@@ -1,4 +1,18 @@
-import ModFile from './ModFIle'
+import type { IOverrides } from 'minecraft-launcher-core'
+import type ModFile from './ModFile'
+
+export interface CustomOptions {
+  memory: {
+    max: string | number;
+    min: string | number;
+  };
+  window?: {
+    width?: number;
+    height?: number;
+    fullscreen?: boolean;
+  };
+  overrides?: IOverrides;
+}
 
 export default interface Modpack {
   formatVersion: 1
@@ -13,4 +27,5 @@ export default interface Modpack {
     'fabric-loader'?: string
     forge?: string
   }
+  extras?: CustomOptions
 }

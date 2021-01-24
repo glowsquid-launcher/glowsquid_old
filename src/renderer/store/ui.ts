@@ -5,16 +5,20 @@ import { Module, Mutation, VuexModule } from 'vuex-module-decorators'
   namespaced: true
 })
 export default class UiModule extends VuexModule {
-  sidebarVisible = false
   authModalVisible = false
   settingsVisible = false
-
-  @Mutation
-  TOGGLE_SIDEBAR () { this.sidebarVisible = !this.sidebarVisible }
+  addInstanceVisible = false
+  gridMode = true
 
   @Mutation
   TOGGLE_AUTH_MODAL () { this.authModalVisible = !this.authModalVisible }
 
   @Mutation
   TOGGLE_SETTINGS () { this.settingsVisible = !this.settingsVisible }
+
+  @Mutation
+  TOGGLE_ADD_INSTANCE_MODAL () { this.addInstanceVisible = !this.addInstanceVisible }
+
+  @Mutation
+  TOGGLE_GRID_MODE () { this.gridMode = !this.gridMode }
 }

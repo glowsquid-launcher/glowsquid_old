@@ -3,11 +3,24 @@ import { promises as fs, existsSync } from 'fs'
 import * as path from 'path'
 import { store } from '@/plugins/store'
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
-import { mkdir } from 'shelljs'
+import { mkdir, rm } from 'shelljs'
 import { remote } from 'electron'
 import axios from 'axios'
-import Modpack from '../../types/Modpack'
-type AddInstanceType = {name: string, fabricVersion: string, minecraftVersion: string}
+import FabricLoaderVersion from '@/../types/FabricLoaderVersion'
+import FabricVersion from '@/../types/FabricVersion'
+import Modpack from '~/../types/Modpack'
+
+type AddInstanceType = {
+  name: string,
+  fabricLoaderVersion: FabricLoaderVersion,
+  fabricLoader: FabricVersion,
+  ram: {
+    min: string,
+    max: string
+  },
+  assetRoot?: string
+}
+
 @Module({
   name: 'instances',
   stateFactory: true,
@@ -15,6 +28,7 @@ type AddInstanceType = {name: string, fabricVersion: string, minecraftVersion: s
 })
 export default class InstancesModule extends VuexModule {
   instances: Modpack[] = store.get('instances', [])
+  userData = remote.app.getPath('userData')
 
   @Mutation
   PUSH_INSTANCE (instance: Modpack) {
@@ -28,8 +42,13 @@ export default class InstancesModule extends VuexModule {
     store.set('instances', this.instances)
   }
 
+  // @Mutation
+  // PUSH_MOD (mod: ModFile, instance: Modpack) {
+  //   this.instances.find()
+  // }
+
   @Action
-  async ADD_INSTANCE ({ name, fabricVersion, minecraftVersion }: AddInstanceType) {
+  async ADD_INSTANCE ({ name, fabricLoader, fabricLoaderVersion, ram, assetRoot }: AddInstanceType) {
     const version: Modpack = {
       name,
       summary: 'no summary yet',
@@ -38,19 +57,27 @@ export default class InstancesModule extends VuexModule {
       releaseDate: new Date().toISOString(),
       formatVersion: 1,
       dependencies: {
-        minecraft: minecraftVersion,
-        'fabric-loader': fabricVersion
+        minecraft: fabricLoader.version,
+        'fabric-loader': fabricLoaderVersion.version
       },
-      files: []
+      files: [],
+      extras: {
+        memory: ram,
+        overrides: {
+          assetRoot
+        }
+      }
     }
 
-    mkdir('-p', path.join(remote.app.getPath('userData'), 'instances', name, '.minecraft', 'versions', minecraftVersion + 'fabric'))
-    mkdir('-p', path.join(remote.app.getPath('userData'), 'instances', name, '.minecraft', 'mods'))
-    const content = JSON.stringify((await axios.get(`https://fabricmc.net/download/technic?yarn=${minecraftVersion}%2Bbuild.1&loader=0.11.1`)).data)
+    mkdir('-p', path.join(this.userData, 'instances', name, '.minecraft', 'versions', fabricLoader.version + 'fabric'))
+    mkdir('-p', path.join(this.userData, 'instances', name, '.minecraft', 'mods'))
+
+    const content = JSON.stringify((await axios.get(`https://fabricmc.net/download/technic?yarn=${fabricLoader.version}${fabricLoaderVersion.separator}${fabricLoaderVersion.build}&loader=${fabricLoaderVersion.version}`)).data)
+
     await fs.writeFile(
-      path.join(remote.app.getPath('userData'), 'instances', name, 'instance.json'),
+      path.join(this.userData, 'instances', name, 'instance.json'),
       JSON.stringify(version))
-    await fs.writeFile(path.join(remote.app.getPath('userData'), 'instances', name, '.minecraft', 'versions', minecraftVersion + 'fabric', minecraftVersion + 'fabric.json'),
+    await fs.writeFile(path.join(this.userData, 'instances', name, '.minecraft', 'versions', fabricLoader.version + 'fabric', fabricLoader.version + 'fabric.json'),
       content)
 
     this.context.commit('PUSH_INSTANCE', version)
@@ -58,16 +85,24 @@ export default class InstancesModule extends VuexModule {
 
   @Action
   async REFRESH_INSTANCES () {
-    const userData = remote.app.getPath('userData')
     // fs.stat breaks for some reason
-    if (!existsSync(path.join(userData, 'instances'))) mkdir('-p', path.join(userData, 'instances'))
+    if (!existsSync(path.join(this.userData, 'instances'))) mkdir('-p', path.join(this.userData, 'instances'))
 
-    const instancePaths = (await fs.readdir(path.join(userData, 'instances'), { withFileTypes: true }))
+    const instancePaths = (await fs.readdir(path.join(this.userData, 'instances'), { withFileTypes: true }))
       .filter(dirent => dirent.isDirectory())
-      .map(dirent => path.join(userData, 'instances', dirent.name, 'instance.json'))
+      .map(dirent => path.join(this.userData, 'instances', dirent.name, 'instance.json'))
 
     this.context.commit('READD_INSTANCES', await Promise.all(instancePaths.map(async instancePath =>
       JSON.parse((await fs.readFile(instancePath)).toString('utf-8'))
     )))
+  }
+
+  @Action
+  async DELETE_INSTANCE (instance: Modpack) {
+    const folderToDelete = path.join(this.userData, 'instances', instance.name)
+    if (existsSync(folderToDelete)) {
+      rm('-rf', folderToDelete)
+      this.context.dispatch('REFRESH_INSTANCES')
+    }
   }
 }

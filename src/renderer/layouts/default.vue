@@ -4,7 +4,8 @@
       <app-header />
       <auth-modal />
       <settings-dialog />
-      <nuxt class="ml-2 mr-2" />
+      <add-instance-modal />
+      <nuxt class="ml-1 mr-1" />
     </v-app>
   </section>
 </template>
@@ -13,10 +14,10 @@
 import appHeader from '@/components/header.vue'
 import authModal from '@/components/authModal.vue'
 import settingsDialog from '@/components/settingsDialog.vue'
-import { defineComponent } from '@nuxtjs/composition-api'
-export default defineComponent({
-  components: { appHeader, authModal, settingsDialog }
-})
+import addInstanceModal from '@/components/addInstanceModal.vue'
+export default {
+  components: { appHeader, authModal, settingsDialog, addInstanceModal }
+}
 </script>
 
 <style>

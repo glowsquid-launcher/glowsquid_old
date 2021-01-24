@@ -4,53 +4,53 @@
     transition="dialog-bottom-transition"
     max-width="600"
   >
-    <template #default="">
-      <v-card>
-        <v-toolbar
-          color="secondary"
-        >
-          Add user
-        </v-toolbar>
-        <v-form v-model="valid" @submit="addUser()">
-          <v-container>
-            <v-row>
+    <v-card>
+      <v-toolbar
+        color="secondary"
+      >
+        Add user
+      </v-toolbar>
+      <v-form v-model="valid" @submit="addUser()">
+        <v-container>
+          <v-row>
+            <v-col>
               <v-col>
-                <v-col>
-                  <v-text-field
-                    v-model="email"
-                    :rules="emailRules"
-                    label="E-mail"
-                    required
-                  />
-                </v-col>
-
-                <v-col>
-                  <v-text-field
-                    v-model="password"
-                    :rules="passRules"
-                    label="Password"
-                    type="password"
-                    required
-                  />
-                </v-col>
+                <v-text-field
+                  v-model="email"
+                  :rules="emailRules"
+                  :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
+                  label="E-mail"
+                  required
+                />
               </v-col>
-            </v-row>
-          </v-container>
-          <v-card-actions>
-            <p v-if="error" class="ml-3 error--text">{{ error }}</p>
-            <div class="ml-auto">
-              <v-btn type="submit" text :disabled="!valid">Submit</v-btn>
-              <v-btn
-                text
-                @click="uiStore.TOGGLE_AUTH_MODAL()"
-              >
-                Close
-              </v-btn>
-            </div>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </template>
+
+              <v-col>
+                <v-text-field
+                  v-model="password"
+                  :rules="passRules"
+                  :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
+                  label="Password"
+                  type="password"
+                  required
+                />
+              </v-col>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-card-actions>
+          <p v-if="error" class="ml-3 error--text">{{ error }}</p>
+          <div class="ml-auto">
+            <v-btn type="submit" text :disabled="!valid">Submit</v-btn>
+            <v-btn
+              text
+              @click="uiStore.TOGGLE_AUTH_MODAL()"
+            >
+              Close
+            </v-btn>
+          </div>
+        </v-card-actions>
+      </v-form>
+    </v-card>
   </v-dialog>
 </template>
 

@@ -1,24 +1,39 @@
 <template>
-  <div class="mb-2">
-    <v-toolbar color="primary" height="80">
-      <v-app-bar-nav-icon @click="sidebarVisible = !sidebarVisible" />
+  <div class="mb-2 sticky z-10">
+    <v-app-bar color="primary" height="50">
+      <v-btn fab color="secondary" class="mr-2" x-small @click="$router.back()">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
       <v-toolbar-title> Glowsquid </v-toolbar-title>
-      <v-breadcrumbs :items="crumbs">
-        <template #item="{ item }">
-          <v-breadcrumbs-item>
-            <NuxtLink :class="$vuetify.theme.dark ? 'white--text' : 'black--text'" :to="`${item.to}`">
-              {{ item.text[0].toUpperCase() + item.text.slice(1) }}
-            </NuxtLink>
-          </v-breadcrumbs-item>
-        </template>
-      </v-breadcrumbs>
+
+      <v-spacer />
+
+      <v-btn-toggle v-model="route" dense>
+        <v-btn class="flex" color="secondary">
+          <v-icon class="mr-1">mdi-package</v-icon>
+          <p class="text-center h-full mb-0">Instances</p>
+        </v-btn>
+
+        <v-btn class="flex" color="secondary">
+          <v-icon class="mr-1">mdi-home</v-icon>
+          <p class="text-center h-full mb-0">Home</p>
+        </v-btn>
+
+        <v-btn class="flex" color="secondary">
+          <v-icon class="mr-1">mdi-information</v-icon>
+          <p class="text-center h-full mb-0">About</p>
+        </v-btn>
+      </v-btn-toggle>
+
       <v-spacer />
       <v-select
         :items="accounts"
         label="Account"
         color="primary"
-        class="mt-8"
+        class="mt-4 mr-3"
+        style="max-width: 15%;"
         :value="account"
+        height="45"
         @input="(e) => usersStore.SET_USER(usersStore.users.indexOf(e))"
       >
         <template #item="{ item }">
@@ -65,73 +80,58 @@
           </v-list-item>
         </template>
       </v-select>
-    </v-toolbar>
-    <NavDrawer :items="items" />
+      <v-btn fab x-small color="secondary" @click="toggleSettings">
+        <v-icon>mdi-cog</v-icon>
+      </v-btn>
+    </v-app-bar>
   </div>
 </template>
 
 <script lang="ts">
-import NavDrawer from '@/components/navDrawer.vue'
 import { uiStore, usersStore } from '@/store'
 import Vue from 'vue'
 
 export default Vue.extend({
-  components: {
-    NavDrawer
-  },
   data () {
     return {
-      items: [{
-        title: 'Home',
-        icon: 'mdi-home',
-        path: '/'
-      },
-      {
-        title: 'About',
-        icon: 'mdi-information',
-        path: '/about'
-      },
-      {
-        title: 'instances',
-        icon: 'mdi-package-variant-closed',
-        path: '/instances'
-      }] as {title: string, icon: string, path: string}[],
       uiStore,
-      usersStore
+      usersStore,
+      routeIndex: 1
     }
   },
   computed: {
-    crumbs () {
-      const pathArray: string[] = this.$route.path.split('/')
-      pathArray.shift()
-      const breadcrumbs = pathArray.reduce((breadcrumbArray, path) => {
-        breadcrumbArray.push({
-          path,
-          to: `${breadcrumbArray.reduce((prev, val) => {
-            return `${prev}/${val.path}`
-          }, '')}/${path}`,
-          text: path === '' ? 'Home' : path
-        })
-        return breadcrumbArray
-      }, [] as {path: string; to: string; text: string}[])
-
-      return breadcrumbs
-    },
-    sidebarVisible: {
-      get () { return uiStore.sidebarVisible },
-      set () { uiStore.TOGGLE_SIDEBAR() }
-    },
     accounts () {
       return usersStore.users
     },
     account: {
       get () { return usersStore.selected },
       set (val) { console.log(val); usersStore.SET_USER(usersStore.users.indexOf(val as any)) }
+    },
+    route: {
+      get () { return this.$data.routeIndex },
+      set (val: 0 | 1 | 2) {
+        switch (val) {
+        case 1:
+          this.$router.push({ path: '/' })
+          break
+        case 0:
+          this.$router.push({
+            path: '/instances'
+          })
+          break
+        case 2:
+          this.$router.push({ path: '/about' })
+          break
+        default:
+          break
+        }
+        this.$data.routeIndex = val
+      }
     }
   },
   methods: {
-    log (...vals: any[]) {
-      console.log(...vals)
+    toggleSettings () {
+      uiStore.TOGGLE_SETTINGS()
     }
   }
 })
