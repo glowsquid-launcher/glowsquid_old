@@ -30,7 +30,8 @@
       "@types/node",
       "@nuxt/vue-app",
       "@nuxtjs/vuetify",
-      "@nuxtjs/axios"
+      "@nuxtjs/axios",
+      "nuxt-i18n"
     ]
   }
 }

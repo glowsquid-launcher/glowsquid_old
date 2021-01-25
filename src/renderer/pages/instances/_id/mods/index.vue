@@ -5,10 +5,10 @@
         v-if="!leaving"
         v-model="searchQuery"
         background-color="#2b2b2b"
-        placeholder="Search"
+        :placeholder="$t('pages.mods.search')"
         class="mr-4 ml-4 mt-2 sticky z-20 elevation"
         style="top: 60px;"
-        hint="You can type the mod name, author and category here"
+        :hint="$t('pages.mods.hint')"
         solo
         dense
       >
@@ -42,8 +42,7 @@
               <p v-if="!leaving">{{ mod.description }}</p>
             </transition>
           </v-card-text>
-          <!-- We need 98% width because else the install button will hit the side for some reason -->
-          <v-card-actions class="card-actions" style="width: 98%;">
+          <v-card-actions class="card-actions w-full">
             <transition name="slide-y-reverse-transition" appear duration="100">
               <div
                 v-if="!leaving"
@@ -51,12 +50,12 @@
                 style="display: grid !important; "
               >
                 <v-btn block @click="$router.push({
-                  path: `/instances/${$route.params.id}/mods/${mod.mod_id.replace('local-', '')}`
+                  path: localePath(`/instances/${$route.params.id}/mods/${mod.mod_id.replace('local-', '') }`)
                 })"
                 >
-                  about
+                  {{ $t('pages.mods.about') }}
                 </v-btn>
-                <v-btn block>install</v-btn>
+                <v-btn block>{{ $t('pages.mods.install') }}</v-btn>
               </div>
             </transition>
           </v-card-actions>

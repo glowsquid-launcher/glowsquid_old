@@ -8,7 +8,7 @@ export default class UiModule extends VuexModule {
   authModalVisible = false
   settingsVisible = false
   addInstanceVisible = false
-  gridMode = true
+  listMode = false
 
   @Mutation
   TOGGLE_AUTH_MODAL () { this.authModalVisible = !this.authModalVisible }
@@ -20,5 +20,5 @@ export default class UiModule extends VuexModule {
   TOGGLE_ADD_INSTANCE_MODAL () { this.addInstanceVisible = !this.addInstanceVisible }
 
   @Mutation
-  TOGGLE_GRID_MODE () { this.gridMode = !this.gridMode }
+  TOGGLE_LIST_MODE () { this.listMode = !this.listMode }
 }

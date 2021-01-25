@@ -6,7 +6,7 @@
         <v-text-field
           v-model="filter"
           background-color="#272727"
-          placeholder="Search"
+          :placeholder="$t('pages.instances.search')"
           class="mr-4 mt-7"
           solo
         >
@@ -25,10 +25,14 @@
       </v-toolbar>
     </transition>
     <div v-if="downloadState">
-      Current Status: Downloading {{ downloadState.name }} | Type: {{ downloadState.type }} | {{ Math.round(downloadState.current / downloadState.total * 100) }}% Downloaded
+      {{ $t('pages.instances.status', {
+        download: downloadState.name,
+        type: downloadState.type,
+        percent: Math.round(downloadState.current / downloadState.total * 100)
+      }) }}
     </div>
     <div
-      v-if="useGrid"
+      v-if="!useList"
       class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-2 justify-center mt-4 ml-3"
       :style="`margin-right: ${selectedInstance ? '18rem' : '16px' };`"
     >
@@ -53,8 +57,16 @@
                 <p class="text-center w-full">{{ instance.name }}</p>
               </v-card-title>
               <v-card-subtitle class="text-center">
-                <div>Minecraft version: {{ instance.dependencies.minecraft }}</div>
-                <div>Fabric loader version: {{ instance.dependencies['fabric-loader'] }}</div>
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <div v-html="$t('pages.instances.mcVersion', {
+                  version: instance.dependencies.minecraft
+                })"
+                />
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <div v-html="$t('pages.instances.mcVersion', {
+                  version: instance.dependencies['fabric-loader']
+                })"
+                />
               </v-card-subtitle>
               <v-card-text class="text-center">
                 {{ instance.summary }}
@@ -77,11 +89,20 @@
             <div class="flex flex-row justify-items-center align-center">
               <section class="card-info">
                 <h3 class="text-h6">{{ instance.name }}</h3>
-                <h4 class="text-subtitle-1">
-                  Minecraft Version: <span class="font-bold">{{ instance.dependencies.minecraft }}</span> | Fabric Version: <span class="font-bold">{{ instance.dependencies['fabric-loader'] }}</span>
+                <h4 class="text-subtitle-1 flex gap-2">
+                  <!-- eslint-disable-next-line vue/no-v-html -->
+                  <div v-html="$t('pages.instances.mcVersion', {
+                    version: instance.dependencies.minecraft
+                  })"
+                  /> |
+                  <!-- eslint-disable-next-line vue/no-v-html -->
+                  <div v-html="$t('pages.instances.mcVersion', {
+                    version: instance.dependencies['fabric-loader']
+                  })"
+                  />
                 </h4>
               </section>
-              <button class="card-action rounded-md pa-1 ml-auto" @click="$router.push({ path: `/instances/${instance ? instance.name : ''}` });">
+              <button class="card-action rounded-md pa-1 ml-auto" @click="$router.push({ path: localePath(`/instances/${instance ? instance.name : ''}`) });">
                 <v-icon>
                   mdi-information-outline
                 </v-icon>
@@ -129,14 +150,14 @@
             <v-divider />
           </div>
           <div class="mt-auto mb-6 mr-2 ml-2">
-            <v-btn class="mt-4" block @click="launch(selectedInstance)">Launch</v-btn>
+            <v-btn class="mt-4" block @click="launch(selectedInstance)">{{ $t('pages.instances.launch') }}</v-btn>
             <v-btn
               class="mt-4"
               color="secondary"
               block
-              @click="$router.push({ path: `/instances/${selectedInstance ? selectedInstance.name : ''}` })"
+              @click="$router.push({ path: localePath(`/instances/${selectedInstance ? selectedInstance.name : ''}`) })"
             >
-              More info
+              {{ $t('pages.instances.moreInfo') }}
             </v-btn>
             <v-btn
               class="mt-4"
@@ -144,7 +165,7 @@
               block
               @click="removeInstance(selectedInstance)"
             >
-              Settings(Deletes instances rn)
+              {{ $t('pages.instances.settings') }}
             </v-btn>
           </div>
         </div>
@@ -184,9 +205,8 @@ export default {
         if (val === false) this.selectedInstance = null
       }
     },
-    useGrid () {
-      console.log('Accessing property', uiStore.gridMode)
-      return uiStore.gridMode
+    useList () {
+      return uiStore.listMode
     },
     instances () {
       return this.filter

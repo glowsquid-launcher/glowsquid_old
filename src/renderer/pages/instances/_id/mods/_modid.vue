@@ -31,7 +31,7 @@
         duration="100"
       >
         <div v-if="!leaving" class="ml-auto flex flex-col w-2/12">
-          <v-btn class="mb-2 self-center" color="secondary">Install</v-btn>
+          <v-btn class="mb-2 self-center" color="secondary">{{ $t('pages.mod.install') }}</v-btn>
         </div>
       </transition>
     </article>

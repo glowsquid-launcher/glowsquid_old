@@ -11,30 +11,29 @@
       <v-btn-toggle v-model="route" dense>
         <v-btn class="flex" color="secondary">
           <v-icon class="mr-1">mdi-package</v-icon>
-          <p class="text-center h-full mb-0">Instances</p>
+          <p class="text-center h-full mb-0">{{ $t('header.instances') }}</p>
         </v-btn>
 
         <v-btn class="flex" color="secondary">
           <v-icon class="mr-1">mdi-home</v-icon>
-          <p class="text-center h-full mb-0">Home</p>
+          <p class="text-center h-full mb-0">{{ $t('header.home') }}</p>
         </v-btn>
 
         <v-btn class="flex" color="secondary">
           <v-icon class="mr-1">mdi-information</v-icon>
-          <p class="text-center h-full mb-0">About</p>
+          <p class="text-center h-full mb-0">{{ $t('header.about') }}</p>
         </v-btn>
       </v-btn-toggle>
 
       <v-spacer />
       <v-select
+        v-model="account"
         :items="accounts"
-        label="Account"
+        :label="$t('header.accounts.placeholder')"
         color="primary"
         class="mt-4 mr-3"
         style="max-width: 15%;"
-        :value="account"
         height="45"
-        @input="(e) => usersStore.SET_USER(usersStore.users.indexOf(e))"
       >
         <template #item="{ item }">
           <v-img
@@ -71,10 +70,10 @@
 
             <v-list-item-content>
               <v-list-item-title>
-                Add account
+                {{ $t('header.accounts.addAcc') }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                Go ahead, add another account or your first one!
+                {{ $t('header.accounts.subtitle') }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -112,15 +111,15 @@ export default Vue.extend({
       set (val: 0 | 1 | 2) {
         switch (val) {
         case 1:
-          this.$router.push({ path: '/' })
+          this.$router.push({ path: this.localePath('/') })
           break
         case 0:
           this.$router.push({
-            path: '/instances'
+            path: this.localePath('/instances')
           })
           break
         case 2:
-          this.$router.push({ path: '/about' })
+          this.$router.push({ path: this.localePath('/about') })
           break
         default:
           break

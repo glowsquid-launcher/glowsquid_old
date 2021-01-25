@@ -17,20 +17,20 @@
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Settings</v-toolbar-title>
+        <v-toolbar-title>{{ $t('settings.title') }}</v-toolbar-title>
       </v-toolbar>
       <v-list
         three-line
         subheader
       >
-        <v-subheader>General</v-subheader>
+        <v-subheader>{{ $t('settings.sections.general.title') }}</v-subheader>
         <v-list-item>
           <v-list-item-action>
             <v-checkbox v-model="useGrid" />
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>List View</v-list-item-title>
-            <v-list-item-subtitle>Shows mod instances as a List instead of a Grid.</v-list-item-subtitle>
+            <v-list-item-title>{{ $t('settings.sections.general.listView.name') }}</v-list-item-title>
+            <v-list-item-subtitle>{{ $t('settings.sections.general.listView.subtitle') }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -53,10 +53,10 @@ export default Vue.extend({
     },
     useGrid: {
       get () {
-        return uiStore.gridMode
+        return uiStore.listMode
       },
       set (val) {
-        if (val !== uiStore.gridMode) uiStore.TOGGLE_GRID_MODE()
+        if (val !== uiStore.listMode) uiStore.TOGGLE_LIST_MODE()
       }
     }
   }

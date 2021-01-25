@@ -4,7 +4,7 @@
       <v-hover v-if="!leaving">
         <template #default="{ hover }">
           <v-card :elevation="hover ? 12 : 6" class="pa-4 transition" color="secondary">
-            <h1 class="text-center">Welcome to Glowsquid.</h1>
+            <h1 class="text-center">{{ $t('pages.home.text') }}</h1>
           </v-card>
         </template>
       </v-hover>

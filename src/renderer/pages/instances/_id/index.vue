@@ -10,8 +10,11 @@
           <h1 class="text-xl text-center mb-2">{{ instance.name }}</h1>
           <h2 class="text-md text-center italic">{{ instance.summary }}</h2>
           <p v-if="downloadState" class="text-sm text-center">
-            <!-- eslint-disable-next-line max-len -->
-            Current Status: Downloading {{ downloadState.name }} | Type: {{ downloadState.type }} | {{ Math.round(downloadState.current / downloadState.total * 100) }}% Downloaded
+            {{ $t('pages.instance.status', {
+              download: downloadState.name,
+              type: downloadState.type,
+              percent: Math.round(downloadState.current / downloadState.total * 100)
+            }) }}
           </p>
         </div>
       </transition>
@@ -25,21 +28,21 @@
           <v-btn
             class="mb-2"
             color="accent"
-            @click="$router.push({ path: `/instances/${$route.params.id}/mods`})"
+            @click="$router.push({ path: localePath(`/instances/${$route.params.id}/mods`) })"
           >
-            Add mods
+            {{ $t('pages.instance.addMods') }}
           </v-btn>
-          <v-btn color="secondary align-self-center">Settings</v-btn>
+          <v-btn color="secondary align-self-center">{{ $t('pages.instance.settings') }}</v-btn>
         </div>
       </transition>
     </article>
     <transition name="fade-transition" appear duration="100">
       <v-tabs v-if="!leaving" color="secondary" class="mt-4 mt-auto flex flex-grow flex-col">
         <v-tab href="#desc">
-          description
+          {{ $t('pages.instance.tabs.description') }}
         </v-tab>
         <v-tab href="#mods">
-          mods
+          {{ $t('pages.instance.tabs.mods') }}
         </v-tab>
 
         <v-tab-item id="desc" key="desc" class="flex-grow">

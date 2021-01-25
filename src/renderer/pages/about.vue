@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1 class="text-h4 text-center">this is mostly a test page, nothing to see here</h1>
+    <h1 class="text-h4 text-center"> {{ $t('pages.about.title') }} </h1>
     <v-btn @click="toast">
-      toast
+      {{ $t('pages.about.toast') }}
     </v-btn>
   </div>
 </template>

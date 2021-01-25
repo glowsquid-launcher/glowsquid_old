@@ -9,7 +9,7 @@
       <v-toolbar
         color="secondary"
       >
-        {{ idx === 0 ? 'Setup instance' : idx === 1 ? 'Select template' : 'Extra settings' }}
+        {{ $tc('addInstanceModal.title', idx) }}
       </v-toolbar>
       <v-form v-model="valid" @submit="addInstance()">
         <v-container>
@@ -43,7 +43,7 @@
             <v-window-item class="mt-3">
               <v-row>
                 <v-text-field
-                  label="instance name"
+                  :label="$t('addInstanceModal.instanceName')"
                   :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
                   :rules="nameRules"
                   :value="name"
@@ -56,7 +56,7 @@
                   <v-col>
                     <v-select
                       :items="versionsToShow"
-                      label="Select version"
+                      :label="$t('addInstanceModal.selectVersion')"
                       :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
                       :value="version"
                       :rules="versionRules"
@@ -69,14 +69,14 @@
                         <p class="mt-2 ml-1"> {{ item.version }}</p>
                       </template>
                       <template #prepend-item>
-                        <v-checkbox v-model="showUnstable" class="ml-2" label="Show unstable versions" />
+                        <v-checkbox v-model="showUnstable" class="ml-2" :label="$t('addInstanceModal.showUnstable')" />
                       </template>
                     </v-select>
                   </v-col>
                   <v-col>
                     <v-select
                       :items="loaderVersions"
-                      label="Select fabric version"
+                      :label="$t('addInstanceModal.selectFabricVersion')"
                       :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
                       :value="loaderVersion"
                       :rules="loaderVersionRules"
@@ -97,28 +97,28 @@
               Soon™
             </v-window-item>
             <v-window-item>
-              <h1 class="text-md">Ram settings</h1>
+              <h1 class="text-md">{{ $t('addInstanceModal.ramSettings.title') }}</h1>
               <div class="grid grid-cols-2 gap-2">
                 <v-text-field
                   v-model="ram.min"
                   :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
-                  label="Min ram"
-                  hint="Min ram for minecraft instance"
+                  :label="$t('addInstanceModal.ramSettings.minRam.title')"
+                  :hint="$t('addInstanceModal.ramSettings.minRam.title')"
                 />
                 <v-text-field
                   v-model="ram.max"
                   :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
-                  label="Max ram"
-                  hint="Max ram for minecraft instance"
+                  :label="$t('addInstanceModal.ramSettings.maxRam.title')"
+                  :hint="$t('addInstanceModal.ramSettings.maxRam.hint')"
                 />
               </div>
               <v-divider class="mb-2 mt-2" />
-              <h1 class="text-md">Random stuff</h1>
+              <h1 class="text-md">{{ $t('addInstanceModal.randomSettings.title') }}</h1>
               <v-text-field
                 v-model="assetRoot"
                 :color="$vuetify.theme.dark ? 'grey-lighten-4' : 'grey-darken-3'"
-                label="asset root"
-                hint="Where minecraft assets are stored. You shouldn't need to change this. Leave blank for default"
+                :label="$t('addInstanceModal.randomSettings.assetRoot.title')"
+                :hint="$t('addInstanceModal.randomSettings.assetRoot.hint')"
                 class="mb-2"
               />
             </v-window-item>

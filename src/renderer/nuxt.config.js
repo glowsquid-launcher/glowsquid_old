@@ -29,7 +29,22 @@ module.exports = {
       ignoreNotFoundWarnings: true,
       typeCheck: false
     }],
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    [
+      'nuxt-i18n',
+      {
+        strategy: 'prefix',
+        locales: [
+          {
+            code: 'en',
+            file: 'en.js'
+          }
+        ],
+        lazy: true,
+        langDir: 'locales/',
+        defaultLocale: 'en'
+      }
+    ]
   ],
   vuetify: {
     theme: {
