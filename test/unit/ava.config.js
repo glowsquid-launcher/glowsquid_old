@@ -11,7 +11,12 @@ export default {
     'src/**/*'
   ],
   require: [
-    './test/unit/setup.js'
+    './test/unit/setup.js',
+    'ts-node/register'
+  ],
+  compileEnhancements: false,
+  extensions: [
+    'ts'
   ],
   babel: {
     testOptions: {
