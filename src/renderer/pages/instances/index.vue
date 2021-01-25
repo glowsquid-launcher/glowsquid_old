@@ -101,7 +101,7 @@
         </transition>
       </section>
     </div>
-    <v-expand-x-transition>
+    <v-expand-x-transition duration="100">
       <v-navigation-drawer
         v-if="selectedInstance && !leaving"
         v-model="isVisible"
@@ -202,8 +202,7 @@ export default {
   },
   methods: {
     setInstance (instance: Modpack) {
-      this.selectedInstance = null
-      setTimeout(() => { this.selectedInstance = instance }, 300)
+      this.selectedInstance = instance
     },
     refresh () {
       return instanceStore.REFRESH_INSTANCES()

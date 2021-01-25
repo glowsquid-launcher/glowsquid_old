@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events'
 import { BrowserWindow, app, ipcMain } from 'electron'
 import * as RPC from 'discord-rpc'
+import Store from 'electron-store'
 
 export default class BrowserWinHandler {
   /**
@@ -20,6 +21,7 @@ export default class BrowserWinHandler {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     app.on('ready', () => {
+      Store.initRenderer()
       const client = new RPC.Client({
         transport: 'ipc'
       })

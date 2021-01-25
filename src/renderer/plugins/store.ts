@@ -4,7 +4,6 @@ import Store from 'electron-store'
 import { Plugin } from '@nuxt/types'
 
 export const store = new Store<Record<'users' | 'selectedUser' | 'instances', any>>()
-
 declare module 'vue/types/vue' {
   interface Vue {
     $electronStore: typeof store
