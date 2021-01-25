@@ -38,7 +38,11 @@ module.exports = {
           {
             code: 'en',
             file: 'en.js'
-          }
+          },
+          {
+            code: 'fr',
+            file: 'fr.js'
+          },
         ],
         lazy: true,
         langDir: 'locales/',
