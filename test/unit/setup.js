@@ -7,7 +7,9 @@ const resourcesPathProvider = require('../../.electron-nuxt/resources-path-provi
 global.__resources = eval(resourcesPathProvider.nuxtServer())
 
 env()
+
 hooks('vue').plugin('vue').push()
+
 hooks(['vue', 'js']).exclude(
   ({ filename }) => filename.match(/\/node_modules\//) || filename.includes('alias.js')
 )
