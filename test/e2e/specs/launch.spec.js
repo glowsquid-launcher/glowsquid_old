@@ -1,11 +1,11 @@
 import test from 'ava'
 
-import { beforeEach, afterEachAlways } from '../helpers'
+import { beforeEach, afterEachAlways, sleep } from '../helpers'
 
 test.beforeEach(beforeEach)
 test.afterEach.always(afterEachAlways)
-
-test('electron should show browser window on startup', async t => {
+test.afterEach(async () => await sleep(10000))
+test('electron should show browser window on startup 1', async t => {
   const app = t.context.app
   await app.client.waitUntilWindowLoaded()
 
@@ -19,7 +19,7 @@ test('electron should show browser window on startup', async t => {
   t.true(height > 0)
 })
 
-test('browser window should initialize nuxt', async t => {
+test('browser window should initialize nuxt 2', async t => {
   const app = t.context.app
 
   try {
@@ -30,7 +30,7 @@ test('browser window should initialize nuxt', async t => {
   }
 })
 
-test('\'fs\' module should load file content from __resources directory', async t => {
+test('\'fs\' module should load file content from __resources directory 3', async t => {
   const app = t.context.app
 
   try {
@@ -44,7 +44,7 @@ test('\'fs\' module should load file content from __resources directory', async 
   }
 })
 
-test('built app should not throw any error', async t => {
+test('built app should not throw any error 4', async t => {
   const app = t.context.app
 
   try {

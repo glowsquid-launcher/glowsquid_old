@@ -6,14 +6,15 @@ export async function beforeEach (t) {
     startTimeout: 50 * 1000,
     quitTimeout: 10 * 1000,
     waitTimeout: 10 * 1000,
-    //https://github.com/puppeteer/puppeteer/blob/v1.0.0/docs/troubleshooting.md#tips
+    // https://github.com/puppeteer/puppeteer/blob/v1.0.0/docs/troubleshooting.md#tips
     chromeDriverArgs: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-extensions'],
     env: {
       SPECTRON: true,
       ELECTRON_ENABLE_LOGGING: true,
       ELECTRON_ENABLE_STACK_DUMPING: true,
       ELECTRON_DISABLE_SECURITY_WARNINGS: true
-    }
+    },
+    port: 9515 + Number(t.title.slice(-1))
   })
 
   await app.start()
@@ -26,8 +27,7 @@ export async function afterEachAlways (t) {
   const app = t.context.app
 
   if (app && app.isRunning()) {
-    await Promise.race([app.stop(), sleep(9000)])
-    // Prevention of RuntimeError: Couldn't connect to selenium server on app.stop()
+    await app.stop().then(() => t.log('here'))
   }
 }
 
@@ -77,6 +77,6 @@ function addExtraCommands (client) {
   })
 }
 
-export async function sleep (ms) {
+export function sleep (ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
