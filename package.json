@@ -43,7 +43,7 @@
     "@xpda-dev/electron-builder": "0.2.1",
     "@xpda-dev/electron-launcher": "0.2.1",
     "@xpda-dev/webpack-step": "0.1.2",
-    "autoprefixer": "10.2.3",
+    "autoprefixer": "10.2.4",
     "ava": "2.4.0",
     "babel-plugin-webpack-alias-7": "0.1.1",
     "browser-env": "3.3.0",
