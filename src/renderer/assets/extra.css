@@ -45,3 +45,12 @@ a {
   position: sticky;
   top: 0;
 }
+
+.news-title {
+  font-size: medium !important;
+}
+
+.news-card {
+  margin: 1em;
+  border-radius: 5em !important;
+}

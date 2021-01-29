@@ -9,11 +9,30 @@
         </template>
       </v-hover>
     </transition>
+    <v-divider />
+    <transition name="slide-y-transition" appear duration="100">
+      <v-card>
+        <v-card-title>Latest News</v-card-title>
+        <v-card class="news-card" color="secondary" elevation="6" tile v-for="newsInfo in news" :key="newsInfo.date">
+          <v-card-title class="news-title">
+            {{ newsInfo.title }}
+          </v-card-title>
+          <v-card-subtitle>
+            <v-img class="rounded-3xl" width="50%" height="auto" v-if="newsInfo.image != null" :src="newsInfo.image" />
+            <br>
+            {{ newsInfo.date.toLocaleString() }}
+          </v-card-subtitle>
+          <v-card-text>{{ newsInfo.contents }}</v-card-text>
+        </v-card>
+      </v-card>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { ipcRenderer } from 'electron'
+import News from '@/../types/News'
+import NewsType from '~/../types/NewsType'
 
 export default {
   beforeRouteLeave (_, _2, next) {
@@ -23,7 +42,26 @@ export default {
     }, 100)
   },
   data () {
+    const newNews: News[] = [
+      {
+        title: 'OH MY!',
+        type: NewsType.GLOWSQUID,
+        contents: 'Glowsquid will soon be getting news article support.',
+        date: new Date(),
+        // eslint-disable-next-line max-len
+        image: 'https://cdn.mos.cms.futurecdn.net/L5o2VmuWEABHm5HsCzGFTk.jpg'
+      },
+      {
+        title: 'Fabric API 0.30.0',
+        type: NewsType.GLOWSQUID,
+        contents: 'OwO, 30? Fabric API 1.00.0 when :tiny_potato:',
+        date: new Date(),
+        // eslint-disable-next-line max-len
+        image: 'https://i.imgur.com/q6D5d1u.png'
+      }
+    ]
     return {
+      news: newNews as News[],
       leaving: false
     }
   },

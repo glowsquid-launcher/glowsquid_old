@@ -1,4 +1,5 @@
 {
 	"vetur.experimental.templateInterpolationService": true,
-	"prettier.enable": false
+	"prettier.enable": false,
+	"discord.enabled": false
 }
