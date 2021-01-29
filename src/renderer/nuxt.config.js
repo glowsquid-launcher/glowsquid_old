@@ -44,6 +44,9 @@ module.exports = {
             file: 'fr.js'
           },
           {
+            code: 'cs',
+            file: 'cs.js',
+          },
             code: 'ru',
             file: 'ru.js'
           },
