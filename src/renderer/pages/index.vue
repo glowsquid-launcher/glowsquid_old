@@ -11,14 +11,21 @@
     </transition>
     <v-divider />
     <transition name="slide-y-transition" appear duration="100">
-      <v-card>
+      <v-card v-if="!leaving">
         <v-card-title>Latest News</v-card-title>
-        <v-card class="news-card" color="secondary" elevation="6" tile v-for="newsInfo in news" :key="newsInfo.date">
+        <v-card
+          v-for="newsInfo in news"
+          :key="newsInfo.title"
+          class="news-card"
+          color="secondary"
+          elevation="6"
+          tile
+        >
           <v-card-title class="news-title">
             {{ newsInfo.title }}
           </v-card-title>
           <v-card-subtitle>
-            <v-img class="rounded-3xl" width="50%" height="auto" v-if="newsInfo.image != null" :src="newsInfo.image" />
+            <v-img v-if="newsInfo.image != null" class="rounded-3xl" width="50%" height="auto" :src="newsInfo.image" />
             <br>
             {{ newsInfo.date.toLocaleString() }}
           </v-card-subtitle>
