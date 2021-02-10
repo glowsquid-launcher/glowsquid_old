@@ -60,9 +60,10 @@
 <script lang="ts">
 import marked from 'marked'
 import DOMPurify from 'dompurify'
-import { instanceStore } from '~/store'
+import { getModule } from 'vuex-module-decorators'
 import launch from '~/utils/launch'
 import DownloadProgress from '~/../types/DownloadProgress'
+import InstancesModule from '~/store/instances'
 
 export default {
   beforeRouteLeave (_, _2, next) {
@@ -73,7 +74,7 @@ export default {
   },
   data () {
     return {
-      instance: instanceStore.instances.find(v => v.name === this.$route.params.id),
+      instance: getModule(InstancesModule, this.$store).instances.find(v => v.name === this.$route.params.id),
       leaving: false,
       downloadState: null as DownloadProgress | null
     }
@@ -88,7 +89,7 @@ export default {
   },
   methods: {
     async launch () {
-      const client = await launch(this.instance ? this.instance : null)
+      const client = await launch(this.instance ? this.instance : null, this.$store)
       client?.on('download-status', e => { this.downloadState = e })
       client?.on('data', e => console.log(e))
     }

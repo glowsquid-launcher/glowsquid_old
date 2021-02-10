@@ -56,11 +56,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { uiStore, usersStore } from '@/store'
+import { getModule } from 'vuex-module-decorators'
+import UiModule from '~/store/ui'
+import UserModule from '~/store/users'
 
 export default Vue.extend({
   data () {
     return {
+      uiStore: getModule(UiModule, this.$store),
+      usersStore: getModule(UserModule, this.$store),
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+/.test(v) || 'E-mail must be valid'
@@ -72,17 +76,16 @@ export default Vue.extend({
       ],
       password: '',
       valid: false,
-      error: '',
-      uiStore
+      error: ''
     }
   },
   computed: {
     visible: {
       get () {
-        return uiStore.authModalVisible
+        return this.uiStore.authModalVisible
       },
       set (value) {
-        if (value !== uiStore.authModalVisible) uiStore.TOGGLE_AUTH_MODAL()
+        if (value !== this.uiStore.authModalVisible) this.uiStore.TOGGLE_AUTH_MODAL()
       }
     }
   },
@@ -91,7 +94,7 @@ export default Vue.extend({
       console.log(...vals)
     },
     addUser () {
-      usersStore.ADD_USER({ username: this.email, password: this.password })
+      this.usersStore.ADD_USER({ username: this.email, password: this.password })
         .then(() => {
           uiStore.TOGGLE_AUTH_MODAL()
           this.error = ''

@@ -15,7 +15,6 @@
 export default {
   layout: 'default',
   props: {
-    // eslint-disable-next-line vue/require-default-prop
     error: {
       type: Object,
       required: true

@@ -177,9 +177,11 @@
 <script lang="ts">
 import launch from '@/utils/launch'
 import { ipcRenderer } from 'electron'
-import { instanceStore, uiStore } from '@/store'
 import Modpack from '@/../types/Modpack'
 import DownloadProgress from '@/../types/DownloadProgress'
+import { getModule } from 'vuex-module-decorators'
+import InstancesModule from '~/store/instances'
+import UiModule from '~/store/ui'
 
 export default {
   beforeRouteLeave (_, _2, next) {
@@ -193,7 +195,9 @@ export default {
       selectedInstance: null as Modpack | null,
       downloadState: null as DownloadProgress | null,
       leaving: false,
-      filter: ''
+      filter: '',
+      instanceStore: getModule(InstancesModule, this.$store),
+      uiStore: getModule(UiModule, this.$store)
     }
   },
   computed: {
@@ -206,12 +210,12 @@ export default {
       }
     },
     useList () {
-      return uiStore.listMode
+      return this.uiStore.listMode
     },
     instances () {
       return this.filter
-        ? instanceStore.instances.filter(instance => instance.name.includes(this.filter))
-        : instanceStore.instances
+        ? this.instanceStore.instances.filter(instance => instance.name.includes(this.filter))
+        : this.instanceStore.instances
     }
   },
   mounted () {
@@ -225,18 +229,18 @@ export default {
       this.selectedInstance = instance
     },
     refresh () {
-      return instanceStore.REFRESH_INSTANCES()
+      return this.instanceStore.REFRESH_INSTANCES()
     },
     async removeInstance (instance: Modpack | null) {
       if (!instance) return
-      await instanceStore.DELETE_INSTANCE(instance)
+      await this.instanceStore.DELETE_INSTANCE(instance)
     },
     async launch (instance: Modpack | null) {
-      const client = await launch(instance)
+      const client = await launch(instance, this.$store)
       client?.on('download-status', e => { this.downloadState = e })
     },
     addInstance () {
-      uiStore.TOGGLE_ADD_INSTANCE_MODAL()
+      this.uiStore.TOGGLE_ADD_INSTANCE_MODAL()
     }
   }
 }

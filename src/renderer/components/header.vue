@@ -87,24 +87,26 @@
 </template>
 
 <script lang="ts">
-import { uiStore, usersStore } from '@/store'
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import UiModule from '~/store/ui'
+import UserModule from '~/store/users'
 
 export default Vue.extend({
   data () {
     return {
-      uiStore,
-      usersStore,
+      uiStore: getModule(UiModule, this.$store),
+      usersStore: getModule(UserModule, this.$store),
       routeIndex: 1
     }
   },
   computed: {
     accounts () {
-      return usersStore.users
+      return this.usersStore.users
     },
     account: {
-      get () { return usersStore.selected },
-      set (val) { console.log(val); usersStore.SET_USER(usersStore.users.indexOf(val as any)) }
+      get () { return this.usersStore.selected },
+      set (val) { this.usersStore.SET_USER(this.usersStore.users.indexOf(val as any)) }
     },
     route: {
       get () { return this.$data.routeIndex },
@@ -130,7 +132,7 @@ export default Vue.extend({
   },
   methods: {
     toggleSettings () {
-      uiStore.TOGGLE_SETTINGS()
+      this.uiStore.TOGGLE_SETTINGS()
     }
   }
 })

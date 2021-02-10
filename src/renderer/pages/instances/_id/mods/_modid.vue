@@ -46,13 +46,16 @@
 <script lang="ts">
 import marked from 'marked'
 import DOMPurify from 'dompurify'
+import { getModule } from 'vuex-module-decorators'
 import Mod from '../../../../../types/Mod'
+import InstancesModule from '~/store/instances'
 export default {
   data () {
     return {
       mod: {} as Mod,
       leaving: false,
-      desc: ''
+      desc: '',
+      instance: getModule(InstancesModule, this.$store).instances.find(v => v.name === this.$route.params.id)
     }
   },
   async fetch () {

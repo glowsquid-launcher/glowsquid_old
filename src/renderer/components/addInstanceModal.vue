@@ -144,13 +144,17 @@
 </template>
 
 <script lang="ts">
-import { instanceStore, uiStore } from '@/store'
 import FabricVersion from '@/../types/FabricVersion'
 import FabricLoaderVersion from '@/../types/FabricLoaderVersion'
+import { getModule } from 'vuex-module-decorators'
+import InstancesModule from '~/store/instances'
+import UiModule from '~/store/ui'
 
 export default {
   data () {
     return {
+      instanceStore: getModule(InstancesModule, this.$store),
+      uiStore: getModule(UiModule, this.$store),
       version: {} as FabricVersion,
       versions: [] as FabricVersion[],
       loaderVersions: [] as FabricLoaderVersion[],
@@ -191,18 +195,18 @@ export default {
     },
     visible: {
       get () {
-        return uiStore.addInstanceVisible
+        return this.uiStore.addInstanceVisible
       },
       async set (val) {
         this.versions = await this.$axios.$get('https://meta.fabricmc.net/v2/versions/game')
         this.version = (await this.$axios.$get('https://meta.fabricmc.net/v2/versions/game')).filter(v => v.stable)[0]
         this.loaderVersions = await this.$axios.$get('https://meta.fabricmc.net/v2/versions/loader')
         this.loaderVersion = await this.$axios.$get('https://meta.fabricmc.net/v2/versions/loader')[0]
-        if (val === false) uiStore.TOGGLE_ADD_INSTANCE_MODAL()
+        if (val === false) this.uiStore.TOGGLE_ADD_INSTANCE_MODAL()
       }
     },
     instances () {
-      return instanceStore.instances
+      return this.instanceStore.instances
     },
     nameRules () {
       return [
@@ -214,13 +218,13 @@ export default {
   },
   methods: {
     addInstance () {
-      instanceStore.ADD_INSTANCE({
+      this.instanceStore.ADD_INSTANCE({
         name: this.name,
         fabricLoader: this.version,
         fabricLoaderVersion: this.loaderVersion,
         ram: this.ram,
         assetRoot: this.assetRoot ? this.assetRoot : undefined
-      }).catch(err => { this.error = err })
+      }, this.$store).catch(err => { this.error = err })
     }
   }
 }

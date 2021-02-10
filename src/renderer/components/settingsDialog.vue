@@ -40,23 +40,30 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { uiStore } from '@/store'
+import { getModule } from 'vuex-module-decorators'
+import UiModule from '~/store/ui'
+
 export default Vue.extend({
+  data () {
+    return {
+      uiStore: getModule(UiModule, this.$store)
+    }
+  },
   computed: {
     dialog: {
       get () {
-        return uiStore.settingsVisible
+        return this.uiStore.settingsVisible
       },
       set (val) {
-        if (val !== uiStore.settingsVisible) uiStore.TOGGLE_SETTINGS()
+        if (val !== this.uiStore.settingsVisible) this.uiStore.TOGGLE_SETTINGS()
       }
     },
     useGrid: {
       get () {
-        return uiStore.listMode
+        return this.uiStore.listMode
       },
       set (val) {
-        if (val !== uiStore.listMode) uiStore.TOGGLE_LIST_MODE()
+        if (val !== this.uiStore.listMode) this.uiStore.TOGGLE_LIST_MODE()
       }
     }
   }

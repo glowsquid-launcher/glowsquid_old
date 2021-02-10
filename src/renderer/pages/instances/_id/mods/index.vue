@@ -66,12 +66,9 @@
 </template>
 
 <script lang="ts">
+import { getModule } from 'vuex-module-decorators'
 import ModList from '../../../../../types/ModList'
-import { instanceStore } from '~/store'
-
-type AsyncComputedFields = {
-  modList: ModList
-}
+import InstancesModule from '~/store/instances'
 
 export default {
   beforeRouteLeave (_, _2, next) {
@@ -81,14 +78,12 @@ export default {
     }, 100)
   },
   data () {
-    const rtn = {
-      instance: instanceStore.instances.find(v => v.name === this.$route.params.id),
+    return {
+      instance: getModule(InstancesModule, this.$store).instances.find(v => v.name === this.$route.params.id),
       searchQuery: '',
       leaving: false,
       modList: {} as ModList
     }
-
-    return rtn as typeof rtn & AsyncComputedFields
   },
   async fetch () {
     // eslint-disable-next-line max-len
